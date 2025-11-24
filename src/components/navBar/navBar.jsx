@@ -1,5 +1,10 @@
 import { Link } from "react-router-dom";
-import { FaShoppingCart, FaChevronDown, FaBars } from "react-icons/fa";
+import Authbuttons from "./authbuttons.jsx";
+
+
+import logo from "../../assets/logo/LogoTiendita.png";
+import logoMobil from "../../assets/logo/logoTienditaMobil.png";
+import { FaShoppingCart, FaBars, FaTimes, FaChevronDown } from "react-icons/fa";
 
 const categories = {
   Todo: [],
@@ -13,21 +18,22 @@ export default function NavBar() {
   return (
     <header className="shadow-md sticky top-0 z-50 bg-base-200">
       {/* MOBILE - DRAWER */}
-      <div className="drawer md:hidden">
+      <div className="drawer drawer-end md:hidden">
         <input id="menu-drawer" type="checkbox" className="drawer-toggle" />
+
         <div className="drawer-content">
           <nav className="navbar bg-base-200 px-4">
-            <Link to="/" className="font-bold text-xl">
-              Tienda
+            <Link to="/" className="flex items-center">
+              <img src={logoMobil} alt="Logo" className="h-9 w-auto" />
             </Link>
-            
+
             <div className="ml-auto flex items-center gap-3">
               <button>
-                <FaShoppingCart className="h-6 w-6 text-[#0a194b]" />
+                <FaShoppingCart className="h-6 w-6 text-[#03265D]" />
               </button>
-
-              <label htmlFor="menu-drawer">
-                <FaBars className="h-6 w-6 text-[#0a194b]" />
+              <Authbuttons />
+              <label htmlFor="menu-drawer" className="cursor-pointer">
+                <FaBars className="h-6 w-6 text-[#03265D]" />
               </label>
             </div>
           </nav>
@@ -37,10 +43,23 @@ export default function NavBar() {
         <div className="drawer-side z-50">
           <label
             htmlFor="menu-drawer"
-            className="drawer-overlay bg-black/70"
+            className="drawer-overlay bg-black/90"
           ></label>
-          <ul className="menu p-4 w-40 min-h-full bg-white border-r border-gray-200 shadow-xl">
-            <h2 className="text-xl font-bold mb-4">Categorías</h2>
+
+          {/* Sidebar */}
+          <ul className="menu p-4 w-60 min-h-full bg-white border-l border-gray-200 shadow-xl relative">
+            <label
+              htmlFor="menu-drawer"
+              className="absolute right-4 top-7 cursor-pointer"
+            >
+              <FaTimes className="h-6 w-6 text-[#03265D]" />
+            </label>
+            <h2 className="text-xl text-[#03265D] font-bold mb-4 mt-2">
+              Categorías
+            </h2>
+            <div className="border-b border-gray-300 mb-4"></div>
+
+            {/* Categorías */}
             {Object.keys(categories).map((cat) => {
               const subcats = categories[cat];
 
@@ -59,18 +78,17 @@ export default function NavBar() {
 
               return (
                 <li key={cat} className="mb-1">
-                  {" "}
                   <details className="group no-marker">
-                    <summary className="font-semibold flex items-center cursor-pointer">
+                    <summary className="font-medium flex items-center cursor-pointer">
                       {cat}
                     </summary>
 
-                    <ul className="pl-4 py-1 space-y-1 mt-2">
+                    <ul>
                       {subcats.map((sub) => (
                         <li key={sub}>
                           <Link
                             to={`/category/${cat.toLowerCase()}/${sub.toLowerCase()}`}
-                            className="text-sm"
+                            className="text-sm "
                           >
                             {sub}
                           </Link>
@@ -87,21 +105,27 @@ export default function NavBar() {
 
       {/* NAVBAR DESKTOP */}
       <nav className="hidden md:block">
-        <nav className="navbar bg-base-200 px-4">
+        <div className="navbar bg-base-200 px-4">
           <div className="flex-1">
-            <Link to="/" className="normal-case text-xl">
-              Tienda
+            <Link to="/" className="inline-flex items-center w-auto">
+              <img
+                src={logo}
+                alt="Logo"
+                className="h-12 w-auto pointer-events-auto"
+              />
             </Link>
           </div>
 
           <div className="flex-none flex gap-2 items-center">
             <button className="cursor-pointer">
-              <FaShoppingCart className="h-6 w-6 text-[#0a194b]" />
+              <FaShoppingCart className="h-6 w-6 text-[#03265D]" />
             </button>
+            <Authbuttons />
           </div>
-        </nav>
+        </div>
 
-        <nav className="bg-[#0a194b] text-white flex justify-center gap-6 py-2 shadow-xl">
+        {/* Desktop categories bar */}
+        <div className="bg-[#03265D] text-white flex justify-center gap-6  shadow-xl">
           {Object.keys(categories).map((cat) => {
             const subcats = categories[cat];
 
@@ -110,7 +134,7 @@ export default function NavBar() {
                 <Link
                   key={cat}
                   to={`/category/${cat.toLowerCase()}`}
-                  className="flex items-center gap-1 px-3 py-1 rounded-md font-semibold hover:bg-white/20 transition-all"
+                  className="flex items-center gap-1 px-3 py-1 font-semibold hover:bg-white/20 transition-all"
                 >
                   {cat}
                 </Link>
@@ -122,7 +146,7 @@ export default function NavBar() {
                 <div
                   tabIndex={0}
                   role="button"
-                  className="flex items-center gap-1 px-3 py-1 rounded-md font-semibold hover:bg-white/20 transition-all cursor-pointer"
+                  className="flex items-center gap-1 px-3 py-1 font-semibold hover:bg-white/20 transition-all cursor-pointer"
                 >
                   {cat}
                   <FaChevronDown className="text-xs opacity-80" />
@@ -130,13 +154,13 @@ export default function NavBar() {
 
                 <ul
                   tabIndex={0}
-                  className="dropdown-content menu p-2 rounded-lg shadow-xl bg-white text-black w-48 border border-gray-200"
+                  className="dropdown-content menu shadow-xl bg-white text-black w-48 border border-gray-200"
                 >
                   {subcats.map((sub) => (
                     <li key={sub}>
                       <Link
                         to={`/category/${cat.toLowerCase()}/${sub.toLowerCase()}`}
-                        className="hover:bg-[#0a194b]/20 rounded-md"
+                        className="hover:bg-[#03265D]/30"
                       >
                         {sub}
                       </Link>
@@ -146,7 +170,7 @@ export default function NavBar() {
               </div>
             );
           })}
-        </nav>
+        </div>
       </nav>
     </header>
   );
