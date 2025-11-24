@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import Authbuttons from "./authbuttons.jsx";
+import Avatar from "./avatar.jsx";
 
 
 import logo from "../../assets/logo/LogoTiendita.png";
@@ -121,6 +122,7 @@ export default function NavBar() {
               <FaShoppingCart className="h-6 w-6 text-[#03265D]" />
             </button>
             <Authbuttons />
+            <Avatar />
           </div>
         </div>
 
