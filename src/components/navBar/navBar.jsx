@@ -8,6 +8,7 @@ import logoMobil from "../../assets/logo/logoTienditaMobil.png";
 import { FaShoppingCart, FaBars, FaTimes, FaChevronDown } from "react-icons/fa";
 
 const categories = {
+  Inicio: [],
   Todo: [],
   Ropa: ["Remeras", "Pantalones", "Zapatos", "Accesorios"],
   Electrónica: ["Celulares", "Tablet", "Notebook"],
