@@ -1,30 +1,54 @@
-import { Link } from "react-router-dom";
-import { useState } from "react";
+import { Link, Navigate } from "react-router-dom";
+import { useState, useContext } from "react";
+import { UserContext } from "../../context/userContext.jsx";
 import { useForm } from "react-hook-form";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { LuTriangleAlert } from "react-icons/lu";
+import { registerService } from "../../services/authService.js";
 
 export const RegisterForm = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [redirect, setRedirect] = useState(false);
 
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
     reset,
   } = useForm({
-    mode: "onChange",
+    mode: "onChange", // Necesario para que isValid funcione en tiempo real
   });
 
-  const onSubmit = (data) => {
-    console.log("Datos del registro:", data);
-    reset();
+  const { userInfo, checkSession } = useContext(UserContext);
+
+  const onSubmit = async (data) => {
+    const payload = {
+      username: `${data.firstName} ${data.lastName}`,
+      email: data.email,
+      password: data.password,
+    };
+
+    await registerService(payload, reset);
+    // Actualiza datos del usuario desde el backend
+    await checkSession();
+    // Redirección
+    setRedirect(true);
   };
+
+  // Redirección basada en rol
+  if (redirect) {
+    if (userInfo?.isAdmin) {
+      return <Navigate to="/admin/dashboard" replace />;
+    }
+    return <Navigate to="/" replace />;
+  }
 
   return (
     <div className="shadow-2xl p-5 rounded-2xl">
       <h1 className="text-xl md:text-3xl font-bold mb-5 text-[#03265D]">
         Registrate para poder comprar
       </h1>
+
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col gap-4 max-w-md mx-auto"
@@ -38,7 +62,8 @@ export const RegisterForm = () => {
             className="border p-2 rounded w-full"
           />
           {errors.firstName && (
-            <p className="text-red-500 text-start mt-1 text-sm">
+            <p className="text-red-500 text-start mt-1 text-sm font-bold flex items-center gap-1">
+              <LuTriangleAlert className="size-4" />
               {errors.firstName.message}
             </p>
           )}
@@ -55,7 +80,8 @@ export const RegisterForm = () => {
             className="border p-2 rounded w-full"
           />
           {errors.lastName && (
-            <p className="text-red-500 text-start mt-1 text-sm">
+            <p className="text-red-500 text-start mt-1 text-sm font-bold flex items-center gap-1">
+              <LuTriangleAlert className="size-4" />
               {errors.lastName.message}
             </p>
           )}
@@ -76,36 +102,44 @@ export const RegisterForm = () => {
             className="border p-2 rounded w-full"
           />
           {errors.email && (
-            <p className="text-red-500 text-start mt-1 text-sm">
+            <p className="text-red-500 text-start mt-1 text-sm font-bold flex items-center gap-1">
+              <LuTriangleAlert className="size-4" />
               {errors.email.message}
             </p>
           )}
         </div>
 
         {/* Contraseña */}
-        <div className="relative">
-          <input
-            type={showPassword ? "text" : "password"}
-            placeholder="Contraseña"
-            {...register("password", {
-              required: "La contraseña es obligatoria",
-              minLength: {
-                value: 6,
-                message: "Debe tener al menos 6 caracteres",
-              },
-            })}
-            className="border p-2 rounded w-full pr-10"
-          />
+        <div className="relative min-h-[70px]">
+          <div className="relative">
+            <input
+              type={showPassword ? "text" : "password"}
+              placeholder="Contraseña"
+              {...register("password", {
+                required: "La contraseña es obligatoria",
+                minLength: {
+                  value: 6,
+                  message: "Debe tener al menos 6 caracteres",
+                },
+                pattern: {
+                  value: /^(?=.*[A-Z])(?=.*\d).+$/,
+                  message: "Incluya mayúsculas y numeros",
+                },
+              })}
+              className="border p-2 rounded w-full pr-10"
+            />
 
-          <span
-            className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-gray-600"
-            onClick={() => setShowPassword(!showPassword)}
-          >
-            {showPassword ? <FaEyeSlash /> : <FaEye />}
-          </span>
+            <span
+              className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-gray-600"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
+            </span>
+          </div>
 
           {errors.password && (
-            <p className="text-red-500 text-start mt-1 text-sm">
+            <p className="text-red-500 text-start mt-1 text-sm font-bold flex items-center gap-1">
+              <LuTriangleAlert className="size-4" />
               {errors.password.message}
             </p>
           )}
@@ -113,15 +147,20 @@ export const RegisterForm = () => {
 
         <button
           type="submit"
-          className="bg-[#03265D] text-white font-bold cursor-pointer p-2 rounded hover:bg-[#021a40] transition-colors"
+          disabled={!isValid}
+          className={`font-bold p-2 rounded transition-colors 
+    ${
+      isValid
+        ? "bg-[#03265D] text-white cursor-pointer hover:bg-[#021a40]"
+        : "bg-gray-400 text-gray-200 cursor-not-allowed"
+    }`}
         >
           Registrarse
         </button>
 
         <div className="w-full h-px bg-[#03265D] my-4"></div>
 
-        {/* Link a Login */}
-        <p className="textarea-lg text-gray-700 text-center">
+        <p className="text-gray-700 text-center">
           ¿Ya tenés cuenta?{" "}
           <Link
             to="/login"
