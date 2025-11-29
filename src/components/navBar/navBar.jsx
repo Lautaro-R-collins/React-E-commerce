@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import Authbuttons from "./authbuttons.jsx";
 import Avatar from "./avatar.jsx";
 
-
 import logo from "../../assets/logo/LogoTiendita.png";
 import logoMobil from "../../assets/logo/logoTienditaMobil.png";
 import { FaShoppingCart, FaBars, FaTimes, FaChevronDown } from "react-icons/fa";
@@ -18,13 +17,13 @@ const categories = {
 
 export default function NavBar() {
   return (
-    <header className="shadow-md sticky top-0 z-50 bg-base-200">
+    <header className="shadow-md sticky top-0 z-50 bg-white">
       {/* MOBILE - DRAWER */}
       <div className="drawer drawer-end md:hidden">
         <input id="menu-drawer" type="checkbox" className="drawer-toggle" />
 
         <div className="drawer-content">
-          <nav className="navbar bg-base-200 px-4">
+          <nav className="navbar bg-white px-4 relative z-50">
             <Link to="/" className="flex items-center">
               <img src={logoMobil} alt="Logo" className="h-9 w-auto" />
             </Link>
@@ -107,7 +106,7 @@ export default function NavBar() {
 
       {/* NAVBAR DESKTOP */}
       <nav className="hidden md:block">
-        <div className="navbar bg-base-200 px-4">
+        <div className="navbar bg-white px-4">
           <div className="flex-1">
             <Link to="/" className="inline-flex items-center w-auto">
               <img
