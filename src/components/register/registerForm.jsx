@@ -1,6 +1,6 @@
 import { Link, Navigate } from "react-router-dom";
-import { useState, useContext } from "react";
-import { UserContext } from "../../context/userContext.jsx";
+import { useState } from "react";
+import { useUser } from "../../context/userContext.jsx";
 import { useForm } from "react-hook-form";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { LuTriangleAlert } from "react-icons/lu";
@@ -16,10 +16,10 @@ export const RegisterForm = () => {
     formState: { errors, isValid },
     reset,
   } = useForm({
-    mode: "onChange", // Necesario para que isValid funcione en tiempo real
+    mode: "onChange", 
   });
 
-  const { userInfo, checkSession } = useContext(UserContext);
+  const { userInfo, checkSession } = useUser();
 
   const onSubmit = async (data) => {
     const payload = {
@@ -38,7 +38,7 @@ export const RegisterForm = () => {
   // Redirección basada en rol
   if (redirect) {
     if (userInfo?.isAdmin) {
-      return <Navigate to="/admin/dashboard" replace />;
+      return <Navigate to="/dashboard" replace />;
     }
     return <Navigate to="/" replace />;
   }
