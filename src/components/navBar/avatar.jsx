@@ -1,6 +1,21 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useUser } from "../../context/userContext.jsx";
+import { logoutService } from "../../services/authService.js";
 
 const Avatar = () => {
+  const { userInfo, setUserInfo } = useUser();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await logoutService();
+      setUserInfo({});
+      navigate("/");
+    } catch (error) {
+      console.error("Error al cerrar sesión", error);
+    }
+  };
+
   return (
     <div className="dropdown dropdown-end">
       <div tabIndex={0} role="button" className="avatar cursor-pointer">
@@ -9,22 +24,29 @@ const Avatar = () => {
         </div>
       </div>
 
-      <ul
-        tabIndex={0}
-        className="dropdown-content menu p-2 shadow-xl bg-white rounded-lg w-48 border border-gray-200"
-      >
+      <ul className="dropdown-content menu p-2 shadow-xl bg-white rounded-lg w-48 border border-gray-200">
+        {userInfo?.isAdmin && (
+          <li>
+            <Link to="/dashboard" className="hover:bg-gray-100">
+              Panel de administrador
+            </Link>
+          </li>
+        )}
+
         <li>
-          <Link to="/profile" className="hover:bg-gray-100">
-            Perfil
-          </Link>
+          <Link to="/profile">Perfil</Link>
         </li>
         <li>
-          <Link to="/settings" className="hover:bg-gray-100">
-            Configuración
-          </Link>
+          <Link to="/settings">Configuración</Link>
         </li>
+
         <li>
-          <button className="hover:bg-gray-100 text-left">Cerrar sesión</button>
+          <button
+            onClick={handleLogout}
+            className="hover:bg-gray-100 text-left"
+          >
+            Cerrar sesión
+          </button>
         </li>
       </ul>
     </div>
