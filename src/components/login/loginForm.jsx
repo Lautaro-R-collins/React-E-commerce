@@ -1,32 +1,51 @@
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { LuTriangleAlert } from "react-icons/lu";
+import { loginService } from "../../services/authService.js";
+import { useUser } from "../../context/userContext.jsx";
 
 export const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [redirect, setRedirect] = useState(false);
+
+  const { setUserInfo, checkSession, userInfo } = useUser();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
-    mode: "onChange",
-  });
+    reset,
+  } = useForm({ mode: "onChange" });
 
-  const onSubmit = (data) => {
-    console.log("Datos del login:", data);
+  const onSubmit = async (data) => {
+    try {
+      const result = await loginService(data);
+      setUserInfo(result.user);
+      await checkSession();
+      reset();
+      setRedirect(true);
+    } catch (error) {
+      console.error("Error al iniciar sesión:", error);
+    }
   };
+
+  // Redirección basada en rol
+  if (redirect) {
+    if (userInfo?.isAdmin) {
+      return <Navigate to="/dashboard" replace />;
+    }
+    return <Navigate to="/" replace />;
+  }
 
   return (
     <div className="shadow-2xl p-5 rounded-2xl md:min-w-[420px]">
       <h1 className="text-xl md:text-3xl font-bold mb-5 text-[#03265D]">
-        Iniciá sesión 
+        Iniciá sesión
       </h1>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col gap-4"
-      >
+
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
         {/* Email */}
         <div>
           <input
@@ -41,37 +60,42 @@ export const LoginForm = () => {
             })}
             className="border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#03265D]"
           />
+
           {errors.email && (
-            <p className="text-red-500 text-start mt-1 text-sm">
+            <p className="text-red-500 text-start mt-1 text-sm font-bold flex items-center gap-1">
+              <LuTriangleAlert className="size-4" />
               {errors.email.message}
             </p>
           )}
         </div>
 
         {/* Contraseña */}
-        <div className="relative">
-          <input
-            type={showPassword ? "text" : "password"}
-            placeholder="Contraseña"
-            {...register("password", {
-              required: "La contraseña es obligatoria",
-              minLength: {
-                value: 6,
-                message: "Debe tener al menos 6 caracteres",
-              },
-            })}
-            className="border p-2 rounded w-full pr-10 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#03265D]"
-          />
+        <div className="relative min-h-[70px]">
+          <div className="relative">
+            <input
+              type={showPassword ? "text" : "password"}
+              placeholder="Contraseña"
+              {...register("password", {
+                required: "La contraseña es obligatoria",
+                minLength: {
+                  value: 6,
+                  message: "Debe tener al menos 6 caracteres",
+                },
+              })}
+              className="border p-2 rounded w-full pr-10 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#03265D]"
+            />
 
-          <span
-            className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-gray-600"
-            onClick={() => setShowPassword(!showPassword)}
-          >
-            {showPassword ? <FaEyeSlash /> : <FaEye />}
-          </span>
+            <span
+              className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-gray-600"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
+            </span>
+          </div>
 
           {errors.password && (
-            <p className="text-red-500 text-start mt-1 text-sm">
+            <p className="text-red-500 text-start mt-1 text-sm font-bold flex items-center gap-1">
+              <LuTriangleAlert className="size-4" />
               {errors.password.message}
             </p>
           )}
@@ -87,7 +111,6 @@ export const LoginForm = () => {
 
         <div className="w-full h-px bg-[#03265D] my-4"></div>
 
-        {/* Link a registro */}
         <p className="text-gray-700 text-center">
           ¿No tenés cuenta?{" "}
           <Link

@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useUser } from "../../context/userContext.jsx";
 import Authbuttons from "./authbuttons.jsx";
 import Avatar from "./avatar.jsx";
 
@@ -7,7 +8,6 @@ import logoMobil from "../../assets/logo/logoTienditaMobil.png";
 import { FaShoppingCart, FaBars, FaTimes, FaChevronDown } from "react-icons/fa";
 
 const categories = {
-  Inicio: [],
   Todo: [],
   Ropa: ["Remeras", "Pantalones", "Zapatos", "Accesorios"],
   Electrónica: ["Celulares", "Tablet", "Notebook"],
@@ -16,6 +16,7 @@ const categories = {
 };
 
 export default function NavBar() {
+  const { loading, userInfo } = useUser();
   return (
     <header className="shadow-md sticky top-0 z-50 bg-white">
       {/* MOBILE - DRAWER */}
@@ -32,7 +33,8 @@ export default function NavBar() {
               <button>
                 <FaShoppingCart className="h-6 w-6 text-[#03265D]" />
               </button>
-              <Authbuttons />
+              {!loading && !userInfo.id && <Authbuttons />}
+              {!loading && userInfo.id && <Avatar />}
               <label htmlFor="menu-drawer" className="cursor-pointer">
                 <FaBars className="h-6 w-6 text-[#03265D]" />
               </label>
@@ -58,7 +60,15 @@ export default function NavBar() {
             <h2 className="text-xl text-[#03265D] font-bold mb-4 mt-2">
               Categorías
             </h2>
+
             <div className="border-b border-gray-300 mb-4"></div>
+
+            <Link
+              to="/"
+              className="flex items-center gap-1 px-3 py-1 font-medium hover:bg-white/20 transition-all"
+            >
+              Inicio
+            </Link>
 
             {/* Categorías */}
             {Object.keys(categories).map((cat) => {
@@ -121,13 +131,19 @@ export default function NavBar() {
             <button className="cursor-pointer">
               <FaShoppingCart className="h-6 w-6 text-[#03265D]" />
             </button>
-            <Authbuttons />
-            <Avatar />
+            {!loading && !userInfo.id && <Authbuttons />}
+            {!loading && userInfo.id && <Avatar />}
           </div>
         </div>
 
         {/* Desktop categories bar */}
         <div className="bg-[#03265D] text-white flex justify-center gap-6  shadow-xl">
+          <Link
+            to="/"
+            className="flex items-center gap-1 px-3 py-1 font-semibold hover:bg-white/20 transition-all"
+          >
+            Inicio
+          </Link>
           {Object.keys(categories).map((cat) => {
             const subcats = categories[cat];
 
