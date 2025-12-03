@@ -50,7 +50,7 @@ export default function NavBar() {
           ></label>
 
           {/* Sidebar */}
-          <ul className="menu p-4 w-60 min-h-full bg-white border-l border-gray-200 shadow-xl relative">
+          <ul className="menu p-4 w-48 min-h-full bg-white border-l border-gray-200 shadow-xl relative">
             <label
               htmlFor="menu-drawer"
               className="absolute right-4 top-7 cursor-pointer"
@@ -172,13 +172,13 @@ export default function NavBar() {
 
                 <ul
                   tabIndex={0}
-                  className="dropdown-content menu shadow-xl bg-white text-black w-48 border border-gray-200"
+                  className="dropdown-content menu shadow-xl bg-[#03265D] text-white w-36 border-none"
                 >
                   {subcats.map((sub) => (
                     <li key={sub}>
                       <Link
                         to={`/category/${cat.toLowerCase()}/${sub.toLowerCase()}`}
-                        className="hover:bg-[#03265D]/30"
+                        className="hover:bg-white/20"
                       >
                         {sub}
                       </Link>
