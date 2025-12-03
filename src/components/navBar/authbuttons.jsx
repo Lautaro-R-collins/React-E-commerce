@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
+import { LuLogIn, LuUserPlus } from "react-icons/lu";
 
 export default function AuthButtons() {
   return (
@@ -15,16 +16,18 @@ export default function AuthButtons() {
         <li>
           <Link
             to="/login"
-            className=" rounded-md font-medium hover:bg-[#03265D]/30"
+            className="flex items-center gap-2 rounded-md font-medium hover:bg-[#03265D]/15"
           >
+            <LuLogIn />
             Iniciar sesión
           </Link>
         </li>
         <li>
           <Link
             to="/register"
-            className="rounded-md font-medium hover:bg-[#03265D]/30"
+            className="flex items-center gap-2 rounded-md font-medium hover:bg-[#03265D]/15"
           >
+            <LuUserPlus />
             Registrarse
           </Link>
         </li>
