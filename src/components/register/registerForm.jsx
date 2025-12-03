@@ -16,7 +16,7 @@ export const RegisterForm = () => {
     formState: { errors, isValid },
     reset,
   } = useForm({
-    mode: "onChange", 
+    mode: "onChange",
   });
 
   const { userInfo, checkSession } = useUser();
