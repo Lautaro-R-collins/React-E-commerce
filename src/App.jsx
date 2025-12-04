@@ -12,6 +12,7 @@ import { Register } from "./pages/Register.jsx";
 import { DetailProduct } from "./pages/detailProduct.jsx";
 import CategoryPage from "./pages/CategoryPage.jsx";
 import NotFound from "./pages/NotFound.jsx";
+import SearchResults from "./pages/SearchResults.jsx";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
                 path="/category/:category/:subcategory?"
                 element={<CategoryPage />}
               />
+              <Route path="/search" element={<SearchResults />} />
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>
