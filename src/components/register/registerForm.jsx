@@ -29,9 +29,7 @@ export const RegisterForm = () => {
     };
 
     await registerService(payload, reset);
-    // Actualiza datos del usuario desde el backend
     await checkSession();
-    // Redirección
     setRedirect(true);
   };
 

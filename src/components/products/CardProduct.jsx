@@ -5,7 +5,7 @@ const CardProduct = ({ product }) => {
   const { stock } = useUser();
 
   return (
-    <div className="relative bg-white rounded-xl shadow-lg overflow-hidden max-w-xs w-full flex flex-col transition-transform duration-200 hover:scale-[1.02]">
+    <div className="relative bg-white rounded-xl shadow-xl overflow-hidden max-w-xs w-full flex flex-col transition-transform duration-200 hover:scale-[1.02]">
       {/* Imagen */}
       <Link to={`/product/${product._id}`} className="block bg-gray-100">
         <div className="w-full h-52 flex items-center justify-center bg-gray-100">

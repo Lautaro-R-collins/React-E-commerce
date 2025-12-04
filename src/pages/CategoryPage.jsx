@@ -1,4 +1,3 @@
-// pages/CategoryPage.jsx
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
@@ -20,7 +19,10 @@ const CategoryPage = () => {
         if (category) params.category = category.toLowerCase();
         if (subcategory) params.subcategory = subcategory?.toLowerCase();
 
-        const response = await axios.get(import.meta.env.VITE_BACKEND_URL + "/products", { params });
+        const response = await axios.get(
+          import.meta.env.VITE_BACKEND_URL + "/products",
+          { params }
+        );
         setProducts(response.data);
       } catch (err) {
         console.error(err);
@@ -33,7 +35,8 @@ const CategoryPage = () => {
     fetchProducts();
   }, [category, subcategory]);
 
-  if (loading) return <p className="text-center mt-10">Cargando productos...</p>;
+  if (loading)
+    return <p className="text-center mt-10">Cargando productos...</p>;
   if (error) return <p className="text-center mt-10 text-red-500">{error}</p>;
 
   return (
@@ -44,7 +47,9 @@ const CategoryPage = () => {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 justify-center">
         {products.length === 0 ? (
-          <p className="col-span-full text-center text-gray-500">No hay productos en esta categoría.</p>
+          <p className="col-span-full text-center text-gray-500">
+            No hay productos en esta categoría.
+          </p>
         ) : (
           products.map((p) => <CardProduct key={p._id} product={p} />)
         )}

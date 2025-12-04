@@ -7,9 +7,7 @@ export const Home = () => {
   // Loading
   if (loading) {
     return (
-      <div className="text-center mt-10 text-xl">
-        Cargando productos...
-      </div>
+      <div className="text-center mt-10 text-xl">Cargando productos...</div>
     );
   }
 
