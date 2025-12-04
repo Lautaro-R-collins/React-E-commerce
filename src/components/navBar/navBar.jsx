@@ -7,6 +7,7 @@ import CartWidget from "../cart/CartWidget.jsx";
 import CartDrawer from "../cart/CartDrawer.jsx";
 import MobileNavbar from "./MobileNavbar.jsx";
 import DesktopCategories from "./DesktopCategories.jsx";
+import SearchBar from "./SearchBar.jsx";
 
 // Logo
 import logo from "../../assets/logo/LogoTiendita.png";
@@ -40,15 +41,23 @@ export default function NavBar() {
       />
 
       {/* DESKTOP NAVBAR */}
-      <nav className="hidden md:block">
-        <div className="navbar bg-white px-4">
-          <div className="flex-1">
-            <Link to="/" className="inline-flex items-center w-auto">
+      <nav className="hidden md:block bg-white">
+        <div className="flex items-center px-6 py-2 gap-6">
+          {/* logo */}
+          <div className="flex-none">
+            <Link to="/" className="inline-flex items-center">
               <img src={logo} alt="Logo" className="h-12 w-auto" />
             </Link>
           </div>
 
-          {/* RIGHT SIDE */}
+          {/* searchbar */}
+          <div className="flex-1 flex justify-center">
+            <div className="w-full max-w-[300px]">
+              <SearchBar />
+            </div>
+          </div>
+
+          {/* iconos login + carrito */}
           <div className="flex-none flex gap-3 items-center">
             <button onClick={() => setIsCartOpen(true)}>
               <CartWidget />
