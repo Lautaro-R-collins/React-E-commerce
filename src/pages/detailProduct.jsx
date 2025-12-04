@@ -1,13 +1,12 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useProduct } from "../context/productContext.jsx";
-import useCart from "../context/useCart.js";   // <-- IMPORTANTE
+import useCart from "../context/useCart.js";
 
 export const DetailProduct = () => {
   const { id } = useParams();
   const { product, productLoading, error, getProductById } = useProduct();
-  const { addItem } = useCart();               // <-- TRAER ADDITEM
-
+  const { addItem } = useCart();
   useEffect(() => {
     if (id) getProductById(id);
   }, [id, getProductById]);
@@ -22,9 +21,7 @@ export const DetailProduct = () => {
 
   if (error || !product?._id) {
     return (
-      <p className="text-center py-10 text-red-500">
-        Producto no encontrado
-      </p>
+      <p className="text-center py-10 text-red-500">Producto no encontrado</p>
     );
   }
 
@@ -52,16 +49,14 @@ export const DetailProduct = () => {
 
           <p className="text-gray-600 text-sm">Marca: {product.brand}</p>
 
-          <p className="text-gray-600 text-sm">
-            Categoría: {product.category}
-          </p>
+          <p className="text-gray-600 text-sm">Categoría: {product.category}</p>
 
           <div className="mt-4 flex flex-col gap-3">
             {product.stock === 0 ? (
               <button className="btn btn-disabled w-full">Sin stock</button>
             ) : (
               <>
-                {/* 🔥 AHORA AGREGA AL CARRITO */}
+                {/* AGREGA AL CARRITO */}
                 <button
                   className="btn btn-neutral w-full"
                   onClick={() => addItem(product, 1)}
