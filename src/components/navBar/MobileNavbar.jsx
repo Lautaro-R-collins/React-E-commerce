@@ -1,10 +1,12 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import Authbuttons from "./authbuttons.jsx";
 import Avatar from "./avatar.jsx";
 import CartWidget from "../cart/CartWidget.jsx";
+import SearchBar from "./SearchBar.jsx";
 
 import logoMobil from "../../assets/logo/logoTienditaMobil.png";
-import { FaBars, FaTimes } from "react-icons/fa";
+import { FaBars, FaTimes, FaSearch } from "react-icons/fa";
 
 export default function MobileNavbar({
   loading,
@@ -14,46 +16,55 @@ export default function MobileNavbar({
   handleLinkClick,
   capitalize,
 }) {
+  const [showSearch, setShowSearch] = useState(false); 
+
   return (
     <div className="drawer drawer-end md:hidden">
       <input id="menu-drawer" type="checkbox" className="drawer-toggle" />
 
       <div className="drawer-content">
-        <nav className="navbar bg-white px-4 relative z-50">
+        <nav className="navbar bg-white px-4 relative z-50 flex items-center">
           <Link to="/" className="flex items-center">
             <img src={logoMobil} alt="Logo" className="h-9 w-auto" />
           </Link>
 
           <div className="ml-auto flex items-center gap-3">
-            {/* === CARRITO MOBILE === */}
+            {/* BUSCAR */}
+            <button onClick={() => setShowSearch((prev) => !prev)}>
+              <FaSearch className="h-5 w-5 text-[#03265D]" />
+            </button>
+
+            {/* CARRITO */}
             <button onClick={() => setIsCartOpen(true)} className="relative">
               <CartWidget />
             </button>
 
+            {/* LOGIN / AVATAR */}
             {!loading && !userInfo.id && <Authbuttons />}
             {!loading && userInfo.id && <Avatar />}
 
-            {/* HAMBURGER MENU */}
+            {/* MENU */}
             <label htmlFor="menu-drawer" className="cursor-pointer">
               <FaBars className="h-6 w-6 text-[#03265D]" />
             </label>
           </div>
+
+          {/* BARRA DE BÚSQUEDA */}
+          {showSearch && (
+            <div className="absolute top-full left-2 right-2 z-50 bg-white rounded-3xl mt-2">
+              <SearchBar />
+            </div>
+          )}
         </nav>
       </div>
 
       {/* SIDEBAR MOBILE */}
       <div className="drawer-side z-50">
-        <label
-          htmlFor="menu-drawer"
-          className="drawer-overlay bg-black/90"
-        ></label>
+        <label htmlFor="menu-drawer" className="drawer-overlay bg-black/90"></label>
 
         <ul className="menu p-4 w-48 min-h-full bg-white border-l border-gray-200 shadow-xl relative">
-          {/* BOTÓN CERRAR */}
-          <label
-            htmlFor="menu-drawer"
-            className="absolute right-4 top-7 cursor-pointer"
-          >
+
+          <label htmlFor="menu-drawer" className="absolute right-4 top-7 cursor-pointer">
             <FaTimes className="h-6 w-6 text-[#03265D]" />
           </label>
 
@@ -106,12 +117,10 @@ export default function MobileNavbar({
                     <li>
                       <Link
                         to={`/category/${cat}`}
-                        className="text-sm font-semibold"
+                        className="text-sm"
                         onClick={() => {
                           handleLinkClick();
-                          document.getElementById(
-                            "menu-drawer"
-                          ).checked = false;
+                          document.getElementById("menu-drawer").checked = false;
                         }}
                       >
                         Todo {capitalize(cat)}
@@ -125,9 +134,7 @@ export default function MobileNavbar({
                           className="text-sm"
                           onClick={() => {
                             handleLinkClick();
-                            document.getElementById(
-                              "menu-drawer"
-                            ).checked = false;
+                            document.getElementById("menu-drawer").checked = false;
                           }}
                         >
                           {capitalize(sub)}
