@@ -13,6 +13,7 @@ import { DetailProduct } from "./pages/detailProduct.jsx";
 import CategoryPage from "./pages/CategoryPage.jsx";
 import NotFound from "./pages/NotFound.jsx";
 import SearchResults from "./pages/SearchResults.jsx";
+import CheckoutForm from "./pages/CheckoutForm.jsx";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
                 element={<CategoryPage />}
               />
               <Route path="/search" element={<SearchResults />} />
+              <Route path="/checkout" element={<CheckoutForm />} />
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>
