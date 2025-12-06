@@ -58,7 +58,7 @@ export default function NavBar() {
           </div>
 
           {/* iconos login + carrito */}
-          <div className="flex-none flex gap-3 items-center">
+          <div className="flex-none flex gap-6 items-center">
             <button onClick={() => setIsCartOpen(true)}>
               <CartWidget />
             </button>
