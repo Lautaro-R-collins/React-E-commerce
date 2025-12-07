@@ -3,6 +3,7 @@ import SliderHome from "../components/home/CarruselImg.jsx";
 import FeaturedProducts from "../components/home/FeaturedProducts.jsx";
 import CategoriesHome from "../components/home/CategoriesHome.jsx";
 import CardProduct from "../components/products/CardProduct.jsx";
+import { HomeBanner } from "../components/home/HomeBanner.jsx";
 
 export const Home = () => {
   const { products, loading, error } = useProduct();
@@ -32,6 +33,8 @@ export const Home = () => {
           <CardProduct key={product._id} product={product} />
         ))}
       </div>
+
+      <HomeBanner />
     </div>
   );
 };
