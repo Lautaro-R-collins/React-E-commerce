@@ -40,87 +40,89 @@ export const LoginForm = () => {
   }
 
   return (
-    <div className="shadow-2xl p-5 rounded-2xl md:min-w-[420px]">
-      <h1 className="text-xl md:text-3xl font-bold mb-5 text-[#03265D]">
-        Iniciá sesión
-      </h1>
+    <div className="px-4">
+      <div className="shadow-2xl p-4 rounded-2xl w-full max-w-[420px] mx-auto">
+        <h1 className="text-xl md:text-3xl font-bold mb-5 text-[#03265D]">
+          Iniciá sesión
+        </h1>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
-        {/* Email */}
-        <div>
-          <input
-            type="email"
-            placeholder="Email"
-            {...register("email", {
-              required: "El email es obligatorio",
-              pattern: {
-                value: /^\S+@\S+\.\S+$/,
-                message: "Email inválido",
-              },
-            })}
-            className="border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#03265D]"
-          />
-
-          {errors.email && (
-            <p className="text-red-500 text-start mt-1 text-sm font-bold flex items-center gap-1">
-              <LuTriangleAlert className="size-4" />
-              {errors.email.message}
-            </p>
-          )}
-        </div>
-
-        {/* Contraseña */}
-        <div className="relative min-h-[70px]">
-          <div className="relative">
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+          {/* Email */}
+          <div>
             <input
-              type={showPassword ? "text" : "password"}
-              placeholder="Contraseña"
-              {...register("password", {
-                required: "La contraseña es obligatoria",
-                minLength: {
-                  value: 6,
-                  message: "Debe tener al menos 6 caracteres",
+              type="email"
+              placeholder="Email"
+              {...register("email", {
+                required: "El email es obligatorio",
+                pattern: {
+                  value: /^\S+@\S+\.\S+$/,
+                  message: "Email inválido",
                 },
               })}
-              className="border p-2 rounded w-full pr-10 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#03265D]"
+              className="border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#03265D]"
             />
 
-            <span
-              className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-gray-600"
-              onClick={() => setShowPassword(!showPassword)}
-            >
-              {showPassword ? <FaEyeSlash /> : <FaEye />}
-            </span>
+            {errors.email && (
+              <p className="text-red-500 text-start mt-1 text-sm font-bold flex items-center gap-1">
+                <LuTriangleAlert className="size-4" />
+                {errors.email.message}
+              </p>
+            )}
           </div>
 
-          {errors.password && (
-            <p className="text-red-500 text-start mt-1 text-sm font-bold flex items-center gap-1">
-              <LuTriangleAlert className="size-4" />
-              {errors.password.message}
-            </p>
-          )}
-        </div>
+          {/* Contraseña */}
+          <div className="relative min-h-[70px]">
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                placeholder="Contraseña"
+                {...register("password", {
+                  required: "La contraseña es obligatoria",
+                  minLength: {
+                    value: 6,
+                    message: "Debe tener al menos 6 caracteres",
+                  },
+                })}
+                className="border p-2 rounded w-full pr-10 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#03265D]"
+              />
 
-        {/* Botón */}
-        <button
-          type="submit"
-          className="bg-[#03265D] text-white font-bold cursor-pointer p-2 rounded hover:bg-[#021a40] transition-colors"
-        >
-          Iniciar sesión
-        </button>
+              <span
+                className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-gray-600"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </span>
+            </div>
 
-        <div className="w-full h-px bg-[#03265D] my-4"></div>
+            {errors.password && (
+              <p className="text-red-500 text-start mt-1 text-sm font-bold flex items-center gap-1">
+                <LuTriangleAlert className="size-4" />
+                {errors.password.message}
+              </p>
+            )}
+          </div>
 
-        <p className="text-gray-700 text-center">
-          ¿No tenés cuenta?{" "}
-          <Link
-            to="/register"
-            className="text-[#03265D] font-semibold hover:underline"
+          {/* Botón */}
+          <button
+            type="submit"
+            className="bg-[#03265D] text-white font-bold cursor-pointer p-2 rounded hover:bg-[#021a40] transition-colors"
           >
-            Registrate
-          </Link>
-        </p>
-      </form>
+            Iniciar sesión
+          </button>
+
+          <div className="w-full h-px bg-[#03265D] my-4"></div>
+
+          <p className="text-gray-700 text-center">
+            ¿No tenés cuenta?{" "}
+            <Link
+              to="/register"
+              className="text-[#03265D] font-semibold hover:underline"
+            >
+              Registrate
+            </Link>
+          </p>
+        </form>
+      </div>
     </div>
   );
 };

@@ -1,12 +1,18 @@
-import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { useProduct } from "../context/productContext.jsx";
 import useCart from "../context/useCart.js";
+import ItemCount from "../components/products/ItemCount.jsx";
 
 export const DetailProduct = () => {
   const { id } = useParams();
   const { product, productLoading, error, getProductById } = useProduct();
   const { addItem } = useCart();
+  const navigate = useNavigate();
+
+  // Guarda la cantidad elegida
+  const [quantitySelected, setQuantitySelected] = useState(1);
+
   useEffect(() => {
     if (id) getProductById(id);
   }, [id, getProductById]);
@@ -57,14 +63,21 @@ export const DetailProduct = () => {
             ) : (
               <>
                 {/* AGREGA AL CARRITO */}
-                <button
-                  className="btn btn-neutral w-full"
-                  onClick={() => addItem(product, 1)}
-                >
-                  Agregar al carrito
-                </button>
+                <ItemCount
+                  stock={product.stock}
+                  onAdd={(qty) => {
+                    addItem(product, qty);
+                    setQuantitySelected(qty);
+                  }}
+                />
 
-                <button className="btn btn-primary w-full">
+                <button
+                  className="btn btn-primary w-full"
+                  onClick={() => {
+                    addItem(product, quantitySelected);
+                    navigate("/checkout");
+                  }}
+                >
                   Comprar ahora
                 </button>
               </>

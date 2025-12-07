@@ -3,15 +3,17 @@
    themes: light;
 }
 
-/* colors */
-:root {
-  --primary: #5d2797;
-  --secondary: #f000b8;
-  --accent: #37cdbe;
-  --neutral: #3d4451;
-  --base-100: #ffffff;
-  --info: #2094f3;
-  --success: #009485;
-  --warning: #ff9900;
-  --error: #ff5724;
+.swiper-button-next,
+.swiper-button-prev {
+  color: #03265D !important;
+
+}
+
+.swiper-pagination-bullet {
+  background-color: #03265D !important;
+  opacity: 1 !important;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: white !important;
 }

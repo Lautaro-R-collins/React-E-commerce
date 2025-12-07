@@ -21,8 +21,10 @@ const CardProduct = ({ product }) => {
         <div className="p-4 flex flex-col gap-2 flex-1">
           <h3 className="text-lg font-semibold text-black">{product.name}</h3>
 
-          <p className="text-gray-500 text-sm line-clamp-2">
-            {product.description}
+          <p className="text-gray-500 text-sm">
+            {product.description?.length > 40
+              ? product.description.slice(0, 40) + "..."
+              : product.description}
           </p>
 
           <p className="text-black font-bold text-lg">${product.price}</p>
