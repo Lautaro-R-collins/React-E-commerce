@@ -1,5 +1,7 @@
 import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper/modules";
 import "swiper/css";
+import "swiper/css/navigation";
 
 import { useProduct } from "../../context/productContext.jsx";
 import { Link } from "react-router-dom";
@@ -10,11 +12,12 @@ export default function FeaturedProducts() {
 
   return (
     <div className="w-full mt-6 p-4">
-
       {loading && <p className="text-center">Cargando...</p>}
 
       {!loading && (
         <Swiper
+          modules={[Navigation]}
+          navigation
           slidesPerView={2.2}
           spaceBetween={14}
           className="max-w-[95%] mx-auto"
@@ -29,7 +32,7 @@ export default function FeaturedProducts() {
             <SwiperSlide key={item._id}>
               <Link
                 to={`/product/${item._id}`}
-                className="flex flex-col py-2 items-center bg-white hover:scale-105  transition p-4"
+                className="flex flex-col py-2 items-center bg-white hover:scale-105 transition p-4"
               >
                 <img
                   src={item.images?.[0] || "/placeholder.jpg"}
