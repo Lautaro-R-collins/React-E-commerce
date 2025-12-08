@@ -5,9 +5,21 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 
 const images = [
-  { id: 1, src: "https://http2.mlstatic.com/D_NQ_776708-MLA100247837909_122025-OO.webp", alt: "Primera imagen" },
-  { id: 2, src: "https://topsortassets.com/asset_01kbdej96yefythn0jgwzd0e70.jpeg?v=1", alt: "Segunda imagen" },
-  { id: 3, src: "https://http2.mlstatic.com/D_NQ_629622-MLA99760735676_122025-OO.webp", alt: "tercera imagen" },
+  {
+    id: 1,
+    src: "https://http2.mlstatic.com/D_NQ_776708-MLA100247837909_122025-OO.webp",
+    alt: "Primera imagen",
+  },
+  {
+    id: 2,
+    src: "https://http2.mlstatic.com/D_NQ_917821-MLA100666733321_122025-OO.webp",
+    alt: "Segunda imagen",
+  },
+  {
+    id: 3,
+    src: "https://http2.mlstatic.com/D_NQ_629622-MLA99760735676_122025-OO.webp",
+    alt: "tercera imagen",
+  },
 ];
 
 function ImageCarousel() {
