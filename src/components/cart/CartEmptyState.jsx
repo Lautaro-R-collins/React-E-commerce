@@ -12,9 +12,7 @@ const CartEmptyState = ({ onClose }) => {
         Tu carrito está vacío
       </h2>
 
-      <p className="text-gray-500 mt-2 max-w-xs">
-        Explora nuestros productos.
-      </p>
+      <p className="text-gray-500 mt-2 max-w-xs">Explora nuestros productos.</p>
 
       <Link
         onClick={onClose}

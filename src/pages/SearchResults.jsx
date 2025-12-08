@@ -38,9 +38,7 @@ export default function SearchResults() {
 
   return (
     <div className="w-full max-w-6xl mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-6">
-        Resultados de {queryParam}
-      </h1>
+      <h1 className="text-2xl font-bold mb-6">Resultados de {queryParam}</h1>
 
       {loading && <p className="text-gray-500">Buscando...</p>}
 

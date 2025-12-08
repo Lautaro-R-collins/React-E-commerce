@@ -26,20 +26,26 @@ const categoriesData = [
 export default function Categories() {
   return (
     <div className="w-full mt-10 px-3">
+      <h2 className="text-3xl font-bold my-6 text-center">Categorías</h2>
+
       <div className="w-full flex justify-center">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-10">
           {categoriesData.map((cat) => (
             <Link
               key={cat.name}
               to={`/category/${cat.name.toLowerCase()}`}
-              className="bg-white shadow-lg hover:shadow-xl rounded-2xl transition transform hover:scale-105 cursor-pointer flex flex-col justify-center items-center p-6"
+              className="bg-white shadow-lg hover:shadow-xl rounded-2xl transition-transform hover:scale-105 cursor-pointer flex flex-col justify-center items-center p-4 w-full max-w-[170px] md:max-w-[230px] mx-auto"
             >
               <img
                 src={cat.image}
                 alt={cat.name}
-                className="w-44 h-44 object-contain"
+                className="w-24 h-24 md:w-40 md:h-40 object-contain"
               />
-              <p className="mt-4 font-semibold text-xl">{cat.name}</p>
+
+              {/* Texto responsivo */}
+              <p className="mt-3 font-semibold text-sm md:text-xl text-center leading-tight md:line-clamp-2">
+                {cat.name}
+              </p>
             </Link>
           ))}
         </div>

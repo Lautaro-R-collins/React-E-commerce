@@ -41,7 +41,12 @@ const CheckoutForm = () => {
       return;
     }
 
-    if (!shipping.pais || !shipping.codigoPostal || !shipping.calle || !shipping.numero) {
+    if (
+      !shipping.pais ||
+      !shipping.codigoPostal ||
+      !shipping.calle ||
+      !shipping.numero
+    ) {
       setError("Completa los datos obligatorios de envío.");
       return;
     }
@@ -62,7 +67,10 @@ const CheckoutForm = () => {
     };
 
     try {
-      const { data } = await axios.post("http://localhost:3000/api/orders", order);
+      const { data } = await axios.post(
+        "http://localhost:3000/api/orders",
+        order
+      );
 
       setOrderId(data.orderId);
       setModalOpen(true);
@@ -83,35 +91,92 @@ const CheckoutForm = () => {
           onSubmit={handleSubmit}
           className="max-w-lg mx-auto p-6 bg-white rounded-xl shadow-2xl my-10 flex flex-col gap-4"
         >
-          <h2 className="text-3xl font-bold text-center mb-4">Finalizar compra</h2>
+          <h2 className="text-3xl font-bold text-center mb-4">
+            Finalizar compra
+          </h2>
           {error && <p className="text-red-500 font-semibold">{error}</p>}
 
           {/* DATOS DEL COMPRADOR */}
-          <input type="text" name="name" placeholder="Nombre completo"
-            value={buyer.name} onChange={handleBuyerChange} className="input" required />
+          <input
+            type="text"
+            name="name"
+            placeholder="Nombre completo"
+            value={buyer.name}
+            onChange={handleBuyerChange}
+            className="input"
+            required
+          />
 
-          <input type="email" name="email" placeholder="Email"
-            value={buyer.email} onChange={handleBuyerChange} className="input" required />
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            value={buyer.email}
+            onChange={handleBuyerChange}
+            className="input"
+            required
+          />
 
-          <input type="tel" name="phone" placeholder="Teléfono"
-            value={buyer.phone} onChange={handleBuyerChange} className="input" required />
+          <input
+            type="tel"
+            name="phone"
+            placeholder="Teléfono"
+            value={buyer.phone}
+            onChange={handleBuyerChange}
+            className="input"
+            required
+          />
 
           {/* DATOS DE ENVÍO */}
-          <input type="text" name="pais" placeholder="País"
-            value={shipping.pais} onChange={handleShippingChange} className="input" required />
+          <input
+            type="text"
+            name="pais"
+            placeholder="País"
+            value={shipping.pais}
+            onChange={handleShippingChange}
+            className="input"
+            required
+          />
 
-          <input type="text" name="codigoPostal" placeholder="Código Postal"
-            value={shipping.codigoPostal} onChange={handleShippingChange} className="input" required />
+          <input
+            type="text"
+            name="codigoPostal"
+            placeholder="Código Postal"
+            value={shipping.codigoPostal}
+            onChange={handleShippingChange}
+            className="input"
+            required
+          />
 
-          <input type="text" name="calle" placeholder="Calle"
-            value={shipping.calle} onChange={handleShippingChange} className="input" required />
+          <input
+            type="text"
+            name="calle"
+            placeholder="Calle"
+            value={shipping.calle}
+            onChange={handleShippingChange}
+            className="input"
+            required
+          />
 
           <div className="flex gap-2">
-            <input type="text" name="numero" placeholder="Número"
-              value={shipping.numero} onChange={handleShippingChange} className="input w-1/2" required />
+            <input
+              type="text"
+              name="numero"
+              placeholder="Número"
+              value={shipping.numero}
+              onChange={handleShippingChange}
+              className="input w-1/2"
+              required
+            />
 
-            <input type="text" name="piso" placeholder="Piso (opcional)"
-              value={shipping.piso} onChange={handleShippingChange} className="input w-1/2" />
+            <input
+              type="text"
+              name="piso"
+              placeholder="Piso (opcional)"
+              value={shipping.piso}
+              onChange={handleShippingChange}
+              className="input w-1/2"
+            />
           </div>
 
           <button
@@ -131,7 +196,9 @@ const CheckoutForm = () => {
             <h2 className="text-2xl font-bold mb-4">¡Gracias por tu compra!</h2>
             <p className="text-lg mb-6">
               Tu número de orden es:{" "}
-              <strong className="bg-amber-400 px-2 py-1 rounded">{orderId}</strong>
+              <strong className="bg-amber-400 px-2 py-1 rounded">
+                {orderId}
+              </strong>
             </p>
             <button
               onClick={() => {

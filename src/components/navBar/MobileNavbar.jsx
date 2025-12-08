@@ -16,7 +16,7 @@ export default function MobileNavbar({
   handleLinkClick,
   capitalize,
 }) {
-  const [showSearch, setShowSearch] = useState(false); 
+  const [showSearch, setShowSearch] = useState(false);
 
   return (
     <div className="drawer drawer-end md:hidden">
@@ -60,11 +60,16 @@ export default function MobileNavbar({
 
       {/* SIDEBAR MOBILE */}
       <div className="drawer-side z-50">
-        <label htmlFor="menu-drawer" className="drawer-overlay bg-black/90"></label>
+        <label
+          htmlFor="menu-drawer"
+          className="drawer-overlay bg-black/90"
+        ></label>
 
         <ul className="menu p-4 w-48 min-h-full bg-white border-l border-gray-200 shadow-xl relative">
-
-          <label htmlFor="menu-drawer" className="absolute right-4 top-7 cursor-pointer">
+          <label
+            htmlFor="menu-drawer"
+            className="absolute right-4 top-7 cursor-pointer"
+          >
             <FaTimes className="h-6 w-6 text-[#03265D]" />
           </label>
 
@@ -120,7 +125,9 @@ export default function MobileNavbar({
                         className="text-sm"
                         onClick={() => {
                           handleLinkClick();
-                          document.getElementById("menu-drawer").checked = false;
+                          document.getElementById(
+                            "menu-drawer"
+                          ).checked = false;
                         }}
                       >
                         Todo {capitalize(cat)}
@@ -134,7 +141,9 @@ export default function MobileNavbar({
                           className="text-sm"
                           onClick={() => {
                             handleLinkClick();
-                            document.getElementById("menu-drawer").checked = false;
+                            document.getElementById(
+                              "menu-drawer"
+                            ).checked = false;
                           }}
                         >
                           {capitalize(sub)}

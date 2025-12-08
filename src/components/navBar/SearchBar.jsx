@@ -4,8 +4,8 @@ import axios from "axios";
 
 import { FaSearch } from "react-icons/fa";
 
-const BACKEND = import.meta.env.VITE_BACKEND_URL || ""; 
-const SEARCH_URL = `${BACKEND}/products/search`; 
+const BACKEND = import.meta.env.VITE_BACKEND_URL || "";
+const SEARCH_URL = `${BACKEND}/products/search`;
 
 export default function SearchBar() {
   const [query, setQuery] = useState("");

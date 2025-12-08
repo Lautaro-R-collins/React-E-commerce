@@ -1,16 +1,15 @@
 @import "tailwindcss";
 @plugin "daisyui" {
-   themes: light;
+  themes: light;
 }
 
 .swiper-button-next,
 .swiper-button-prev {
-  color: #03265D !important;
-
+  color: #03265d !important;
 }
 
 .swiper-pagination-bullet {
-  background-color: #03265D !important;
+  background-color: #03265d !important;
   opacity: 1 !important;
 }
 

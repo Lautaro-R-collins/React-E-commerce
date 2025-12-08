@@ -14,11 +14,11 @@ export const addToCartService = async (userId, productId, quantity = 1) => {
     return response.data;
   } catch (error) {
     console.error("Error agregando al carrito:", error);
-    throw error; 
+    throw error;
   }
 };
 
-// obtener el carrito del usurio 
+// obtener el carrito del usurio
 
 export const getCartService = async (userId) => {
   try {
@@ -28,11 +28,11 @@ export const getCartService = async (userId) => {
     return response.data;
   } catch (error) {
     console.error("Error obteniendo el carrito:", error);
-    throw error; 
+    throw error;
   }
 };
 
-// vaciar carrito 
+// vaciar carrito
 
 export const clearCartService = async (userId) => {
   try {
@@ -48,9 +48,12 @@ export const clearCartService = async (userId) => {
 
 export const deleteProductCartService = async (userId, productId) => {
   try {
-    const response = await axios.delete(`${API_URL}/delete/${userId}/${productId}`, {
-      withCredentials: true,
-    });
+    const response = await axios.delete(
+      `${API_URL}/delete/${userId}/${productId}`,
+      {
+        withCredentials: true,
+      }
+    );
     return response.data;
   } catch (error) {
     console.error("Error eliminando el producto del carrito:", error);
