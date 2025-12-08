@@ -1,7 +1,5 @@
-import React from 'react'
+import React from "react";
 
 export const HomeBanner = () => {
-  return (
-    <div>HomeBanner</div>
-  )
-}
+  return <div>HomeBanner</div>;
+};
