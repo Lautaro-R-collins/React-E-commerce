@@ -1,12 +1,28 @@
 import { Link } from "react-router-dom";
-import { useUser } from "../../context/userContext.jsx";
+import { FaHeart } from "react-icons/fa";
+import useFavorites from "../../context/useFavorites";
 
 const CardProduct = ({ product }) => {
-  const { stock } = useUser();
+  const { addToFavorites, removeFromFavorites, isFavorite } = useFavorites();
+
+  const toggleFavorite = () => {
+    isFavorite(product._id)
+      ? removeFromFavorites(product._id)
+      : addToFavorites(product);
+  };
 
   return (
     <div className="relative bg-white rounded-xl shadow-xl overflow-hidden max-w-xs w-full flex flex-col transition-transform duration-200 hover:scale-[1.02]">
-      {/* Imagen */}
+      {/* add favorites */}
+      <button
+        onClick={toggleFavorite}
+        className="absolute top-2 right-2 z-10 text-xl cursor-pointer hover:scale-110 transition-transform"
+      >
+        <FaHeart
+          className={isFavorite(product._id) ? "text-red-500" : "text-gray-300"}
+        />
+      </button>
+      {/* product */}
       <Link to={`/product/${product._id}`} className="block bg-gray-100">
         <div className="w-full h-52 flex items-center justify-center bg-gray-100">
           <img
@@ -17,21 +33,12 @@ const CardProduct = ({ product }) => {
           />
         </div>
 
-        {/* Contenido */}
         <div className="p-4 flex flex-col gap-2 flex-1">
           <h3 className="text-lg font-semibold text-black">{product.name}</h3>
 
-          <p className="text-gray-500 text-sm">
-            {product.description?.length > 40
-              ? product.description.slice(0, 40) + "..."
-              : product.description}
-          </p>
-
           <p className="text-black font-bold text-lg">${product.price}</p>
 
-          <p className="text-gray-600 text-sm">
-            Stock: {product.stock ?? stock ?? "—"}
-          </p>
+          <p className="text-gray-600 text-sm">Stock: {product.stock}</p>
         </div>
       </Link>
     </div>
