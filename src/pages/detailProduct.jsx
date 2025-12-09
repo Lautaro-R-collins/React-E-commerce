@@ -198,7 +198,7 @@ export const DetailProduct = () => {
                         <input
                           key={n}
                           type="radio"
-                          className="mask mask-star-2 bg-yellow-500"
+                          className="mask mask-star bg-yellow-500"
                           readOnly
                           checked={r.rating === n}
                         />
