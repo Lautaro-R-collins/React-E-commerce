@@ -136,14 +136,14 @@ export const DetailProduct = () => {
 
                 <div className="flex w-full gap-4">
                   <button
-                    className="bg-[#03265D] text-white px-6 py-2 rounded-md font-semibold shadow hover:bg-[#02193d] transition-colors flex items-center justify-center gap-2"
+                    className="bg-[#03265D] cursor-pointer text-white px-6 py-2 rounded-md font-semibold shadow hover:bg-[#02193d] transition-colors flex items-center justify-center gap-2"
                     onClick={() => addItem(product, quantitySelected)}
                   >
                     Agregar al carrito
                   </button>
 
                   <button
-                    className="bg-[#03265D] text-white px-6 py-2 rounded-md font-semibold shadow hover:bg-[#02193d] transition-colors flex items-center justify-center gap-2"
+                    className="bg-[#03265D] cursor-pointer text-white px-6 py-2 rounded-md font-semibold shadow hover:bg-[#02193d] transition-colors flex items-center justify-center gap-2"
                     onClick={() => {
                       addItem(product, quantitySelected);
                       navigate("/checkout");
@@ -189,9 +189,22 @@ export const DetailProduct = () => {
         ) : (
           <div className="flex flex-col gap-4">
             {reviews.map((r) => (
-              <div key={r._id} className="border-none bg-white">
-                <p>
-                  {r.username} ⭐ {r.rating}
+              <div key={r._id} className="border-none bg-gray-200 p-4 rounded">
+                <p className="font-semibold">
+                  <div className="flex items-center">
+                    <span className="font-semibold mr-2">{r.username}</span>
+                    <div className="rating rating-sm">
+                      {[1, 2, 3, 4, 5].map((n) => (
+                        <input
+                          key={n}
+                          type="radio"
+                          className="mask mask-star-2 bg-yellow-500"
+                          readOnly
+                          checked={r.rating === n}
+                        />
+                      ))}
+                    </div>
+                  </div>
                 </p>
                 <p>{r.comment}</p>
               </div>
@@ -203,27 +216,28 @@ export const DetailProduct = () => {
         {isAuthenticated() ? (
           <div className="mt-6">
             <h4 className="font-semibold">Escribir reseña:</h4>
-            <select
-              className="border rounded p-2 mt-2"
-              value={rating}
-              onChange={(e) => setRating(Number(e.target.value))}
-            >
-              {[1, 2, 3, 4, 5].map((n) => (
-                <option key={n} value={n}>
-                  {n} estrellas
-                </option>
+            <div className="rating rating-md mt-2 flex">
+              {[1, 2, 3, 4, 5].map((num) => (
+                <input
+                  key={num}
+                  type="radio"
+                  name="rating"
+                  className="mask mask-star bg-yellow-500"
+                  checked={rating === num}
+                  onChange={() => setRating(num)}
+                />
               ))}
-            </select>
+            </div>
 
             <textarea
-              className="border rounded p-2 w-full mt-2"
+              className="bg-gray-200 rounded p-2 w-full mt-2"
               placeholder="Comentario..."
               value={comment}
               onChange={(e) => setComment(e.target.value)}
             />
 
             <button
-              className="bg-[#03265D] text-white px-4 py-2 rounded mt-2"
+              className="bg-[#03265D] text-white px-4 py-2 rounded mt-2 cursor-pointer hover:bg-[#02193d] transition-colors"
               onClick={handleSubmitReview}
             >
               Publicar reseña
