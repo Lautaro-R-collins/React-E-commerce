@@ -38,7 +38,7 @@ function ImageCarousel() {
           <img
             src={img.src}
             alt={img.alt}
-            className="w-full h-[150px] sm:h-[200px] md:h-[300px] object-cover"
+            className="w-full h-[150px] sm:h-[200px] md:h-[350px] object-cover"
           />
         </SwiperSlide>
       ))}
