@@ -13,8 +13,3 @@ export const createReview = async (productId, data) => {
   const res = await axios.post(`${API_URL}/${productId}`, data);
   return res.data;
 };
-
-export const deleteReview = async (productId, reviewId) => {
-  const res = await axios.delete(`${API_URL}/${productId}/${reviewId}`);
-  return res.data;
-};

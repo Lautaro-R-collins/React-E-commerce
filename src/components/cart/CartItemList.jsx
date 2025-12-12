@@ -5,12 +5,16 @@ const CartItemList = ({ cart, removeItem }) => {
     <>
       {cart.map((item) => {
         const product = item.product;
-        const price = product.price || 0;
-        const productId = product._id;
+
+        const finalPrice = product.discountActive
+          ? Math.round(
+              product.price - (product.price * product.discount) / 100
+            )
+          : product.price;
 
         return (
           <div
-            key={productId}
+            key={product._id}
             className="flex gap-3 items-center border-b pb-2"
           >
             <img
@@ -22,11 +26,24 @@ const CartItemList = ({ cart, removeItem }) => {
             <div className="flex-1">
               <p className="font-semibold">{product.name}</p>
               <p className="text-sm text-gray-600">Cantidad: {item.quantity}</p>
-              <p className="font-bold mt-1">${price * item.quantity}</p>
+
+              {/* PRECIOS */}
+              {product.discountActive ? (
+                <>
+                  <p className="text-sm line-through text-gray-400">
+                    ${product.price * item.quantity}
+                  </p>
+                  <p className="font-bold text-green-600">
+                    ${finalPrice * item.quantity}
+                  </p>
+                </>
+              ) : (
+                <p className="font-bold">${finalPrice * item.quantity}</p>
+              )}
             </div>
 
             <button
-              onClick={() => removeItem(productId)}
+              onClick={() => removeItem(product._id)}
               className="text-red-500 hover:text-red-700 cursor-pointer"
             >
               <FaTrashAlt size={20} />

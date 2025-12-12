@@ -6,14 +6,24 @@ import CartFooter from "./CartFooter";
 
 const CartDrawer = ({ isOpen, onClose }) => {
   const cartContext = useCart();
-
   if (!cartContext) return null;
 
   const { cart = [], removeItem, clearCart } = cartContext;
 
+  // ---- CALCULAR DESCUENTO ----
+  const calculateDiscountedPrice = (product) => {
+    if (!product.discountActive || product.discount <= 0) {
+      return product.price;
+    }
+    return Math.round(
+      product.price - (product.price * product.discount) / 100
+    );
+  };
+
+  // ---- TOTAL CON DESCUENTO ----
   const totalPrice = cart.reduce((acc, item) => {
-    const price = item.product.price || 0;
-    return acc + price * (item.quantity || 1);
+    const finalPrice = calculateDiscountedPrice(item.product);
+    return acc + finalPrice * (item.quantity || 1);
   }, 0);
 
   return (
@@ -24,12 +34,10 @@ const CartDrawer = ({ isOpen, onClose }) => {
 
       <div
         className={`fixed top-0 right-0 h-full w-80 bg-white shadow-xl z-9999 transform transition-transform duration-300
-    ${isOpen ? "translate-x-0" : "translate-x-full"} flex flex-col`}
+          ${isOpen ? "translate-x-0" : "translate-x-full"} flex flex-col`}
       >
-        {/* Header */}
         <CartHeader onClose={onClose} />
 
-        {/* main */}
         <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-4">
           {cart.length === 0 ? (
             <CartEmptyState onClose={onClose} />
@@ -38,7 +46,6 @@ const CartDrawer = ({ isOpen, onClose }) => {
           )}
         </div>
 
-        {/* Footer */}
         {cart.length > 0 && (
           <CartFooter
             totalPrice={totalPrice}
