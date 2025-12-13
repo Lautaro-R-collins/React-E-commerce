@@ -20,8 +20,19 @@ const CheckoutForm = () => {
 
   const navigate = useNavigate();
 
+  // CALCULA EL PRECIO FINAL 
+  const getFinalPrice = (product) => {
+    if (product.discountActive && product.discount > 0) {
+      return Math.round(
+        product.price - (product.price * product.discount) / 100
+      );
+    }
+    return product.price;
+  };
+
+  //TOTAL CON DESCUENTOS
   const totalPrice = cart.reduce(
-    (acc, item) => acc + item.product.price * item.quantity,
+    (acc, item) => acc + getFinalPrice(item.product) * item.quantity,
     0
   );
 
@@ -54,16 +65,17 @@ const CheckoutForm = () => {
     setLoading(true);
     setError(null);
 
+    // ARMAR ITEMS CON PRECIO FINAL
     const order = {
       buyer,
       shipping,
       items: cart.map(({ product, quantity }) => ({
         productId: product._id,
         name: product.name,
-        price: product.price,
+        price: getFinalPrice(product), 
         quantity,
       })),
-      total: totalPrice,
+      total: totalPrice, 
     };
 
     try {
@@ -182,7 +194,7 @@ const CheckoutForm = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full px-4 py-2 bg-yellow-400 text-black rounded font-semibold cursor-pointer"
+            className="w-full px-4 py-2 bg-[#03265D] text-white rounded font-semibold cursor-pointer"
           >
             {loading ? "Procesando..." : "Confirmar compra"}
           </button>
@@ -196,7 +208,7 @@ const CheckoutForm = () => {
             <h2 className="text-2xl font-bold mb-4">¡Gracias por tu compra!</h2>
             <p className="text-lg mb-6">
               Tu número de orden es:{" "}
-              <strong className="bg-amber-400 px-2 py-1 rounded">
+              <strong className="bg-[#03265D] text-white px-2 py-1 rounded">
                 {orderId}
               </strong>
             </p>
@@ -205,7 +217,7 @@ const CheckoutForm = () => {
                 setModalOpen(false);
                 navigate("/");
               }}
-              className="px-4 py-2 bg-yellow-400 text-black rounded font-semibold cursor-pointer"
+              className="px-4 py-2 bg-[#03265D] text-white rounded font-semibold cursor-pointer"
             >
               Cerrar
             </button>
