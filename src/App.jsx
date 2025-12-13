@@ -1,7 +1,8 @@
 import { Routes, Route } from "react-router-dom";
 import Layout from "../src/layout/layout.jsx";
-
 import "./App.css";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 // context
 import { CartProvider } from "./context/CartContext.jsx";
@@ -45,6 +46,15 @@ function App() {
           </CartProvider>
         </ProductProvider>
       </UserProvider>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        closeOnClick
+        pauseOnHover
+        draggable
+        theme="colored"
+      />
     </FavoritesProvider>
   );
 }
