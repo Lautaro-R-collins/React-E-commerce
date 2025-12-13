@@ -1,26 +1,68 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
 import useCart from "../context/useCart";
 import axios from "axios";
+import { LuTriangleAlert } from "react-icons/lu";
+
+const COUNTRIES = [
+  "Argentina",
+  "Brasil",
+  "Chile",
+  "Uruguay",
+  "Paraguay",
+  "Bolivia",
+  "Perú",
+  "Colombia",
+  "México",
+  "España",
+];
+
+const SelectCountry = ({ register, error }) => (
+  <div className="w-full">
+    <select
+      {...register("pais", {
+        required: "Seleccioná un país",
+      })}
+      className="border p-2 rounded w-full bg-white cursor-pointer"
+      defaultValue=""
+    >
+      <option value="" disabled>
+        Seleccioná tu país
+      </option>
+
+      {COUNTRIES.map((country) => (
+        <option key={country} value={country}>
+          {country}
+        </option>
+      ))}
+    </select>
+
+    {error && (
+      <p className="text-red-500 mt-1 text-sm font-bold flex items-center gap-1">
+        <LuTriangleAlert className="size-4" />
+        {error.message}
+      </p>
+    )}
+  </div>
+);
 
 const CheckoutForm = () => {
   const { cart, clearCart } = useCart();
-  const [buyer, setBuyer] = useState({ name: "", email: "", phone: "" });
-  const [shipping, setShipping] = useState({
-    pais: "",
-    codigoPostal: "",
-    calle: "",
-    numero: "",
-    piso: "",
-  });
+  const navigate = useNavigate();
+
   const [orderId, setOrderId] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [apiError, setApiError] = useState(null);
 
-  const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm({ mode: "onChange" });
 
-  // CALCULA EL PRECIO FINAL 
+  // PRECIO FINAL CON DESCUENTO
   const getFinalPrice = (product) => {
     if (product.discountActive && product.discount > 0) {
       return Math.round(
@@ -30,66 +72,47 @@ const CheckoutForm = () => {
     return product.price;
   };
 
-  //TOTAL CON DESCUENTOS
+  // TOTAL
   const totalPrice = cart.reduce(
     (acc, item) => acc + getFinalPrice(item.product) * item.quantity,
     0
   );
 
-  const handleBuyerChange = (e) => {
-    setBuyer({ ...buyer, [e.target.name]: e.target.value });
-  };
-
-  const handleShippingChange = (e) => {
-    setShipping({ ...shipping, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (!buyer.name || !buyer.email || !buyer.phone) {
-      setError("Completa los datos personales del comprador.");
-      return;
-    }
-
-    if (
-      !shipping.pais ||
-      !shipping.codigoPostal ||
-      !shipping.calle ||
-      !shipping.numero
-    ) {
-      setError("Completa los datos obligatorios de envío.");
-      return;
-    }
-
+  const onSubmit = async (data) => {
     setLoading(true);
-    setError(null);
+    setApiError(null);
 
-    // ARMAR ITEMS CON PRECIO FINAL
     const order = {
-      buyer,
-      shipping,
+      buyer: {
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+      },
+      shipping: {
+        pais: data.pais,
+        codigoPostal: data.codigoPostal,
+        calle: data.calle,
+        numero: data.numero,
+        piso: data.piso,
+      },
       items: cart.map(({ product, quantity }) => ({
         productId: product._id,
-        name: product.name,
-        price: getFinalPrice(product), 
         quantity,
       })),
-      total: totalPrice, 
     };
 
     try {
-      const { data } = await axios.post(
+      const { data: response } = await axios.post(
         "http://localhost:3000/api/orders",
         order
       );
 
-      setOrderId(data.orderId);
+      setOrderId(response.orderId);
       setModalOpen(true);
       clearCart();
     } catch (err) {
-      console.error("Error creando la orden:", err);
-      setError("Hubo un error al procesar la compra. Intenta de nuevo.");
+      console.error(err);
+      setApiError("No se pudo procesar la compra. Intentá nuevamente.");
     } finally {
       setLoading(false);
     }
@@ -97,117 +120,126 @@ const CheckoutForm = () => {
 
   return (
     <>
-      {/* FORMULARIO */}
-      <div className="px-2">
-        <form
-          onSubmit={handleSubmit}
-          className="max-w-lg mx-auto p-6 bg-white rounded-xl shadow-2xl my-10 flex flex-col gap-4"
-        >
-          <h2 className="text-3xl font-bold text-center mb-4">
+      <div className="px-4">
+        <div className="shadow-2xl p-6 rounded-2xl w-full max-w-[500px] mx-auto my-10">
+          <h1 className="text-2xl font-bold mb-6 text-[#03265D]">
             Finalizar compra
-          </h2>
-          {error && <p className="text-red-500 font-semibold">{error}</p>}
+          </h1>
 
-          {/* DATOS DEL COMPRADOR */}
-          <input
-            type="text"
-            name="name"
-            placeholder="Nombre completo"
-            value={buyer.name}
-            onChange={handleBuyerChange}
-            className="input"
-            required
-          />
-
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            value={buyer.email}
-            onChange={handleBuyerChange}
-            className="input"
-            required
-          />
-
-          <input
-            type="tel"
-            name="phone"
-            placeholder="Teléfono"
-            value={buyer.phone}
-            onChange={handleBuyerChange}
-            className="input"
-            required
-          />
-
-          {/* DATOS DE ENVÍO */}
-          <input
-            type="text"
-            name="pais"
-            placeholder="País"
-            value={shipping.pais}
-            onChange={handleShippingChange}
-            className="input"
-            required
-          />
-
-          <input
-            type="text"
-            name="codigoPostal"
-            placeholder="Código Postal"
-            value={shipping.codigoPostal}
-            onChange={handleShippingChange}
-            className="input"
-            required
-          />
-
-          <input
-            type="text"
-            name="calle"
-            placeholder="Calle"
-            value={shipping.calle}
-            onChange={handleShippingChange}
-            className="input"
-            required
-          />
-
-          <div className="flex gap-2">
-            <input
-              type="text"
-              name="numero"
-              placeholder="Número"
-              value={shipping.numero}
-              onChange={handleShippingChange}
-              className="input w-1/2"
-              required
-            />
-
-            <input
-              type="text"
-              name="piso"
-              placeholder="Piso (opcional)"
-              value={shipping.piso}
-              onChange={handleShippingChange}
-              className="input w-1/2"
-            />
-          </div>
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full px-4 py-2 bg-[#03265D] text-white rounded font-semibold cursor-pointer"
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="flex flex-col gap-5"
           >
-            {loading ? "Procesando..." : "Confirmar compra"}
-          </button>
-        </form>
+            {/* === DATOS DEL COMPRADOR === */}
+            <h3 className="font-bold text-[#03265D]">Datos del comprador</h3>
+
+            <Input
+              placeholder="Nombre completo"
+              register={register("name", {
+                required: "El nombre es obligatorio",
+                minLength: { value: 3, message: "Nombre muy corto" },
+              })}
+              error={errors.name}
+            />
+
+            <Input
+              type="email"
+              placeholder="Email"
+              register={register("email", {
+                required: "El email es obligatorio",
+                pattern: {
+                  value: /^\S+@\S+\.\S+$/,
+                  message: "Email inválido",
+                },
+              })}
+              error={errors.email}
+            />
+
+            <Input
+              placeholder="Teléfono"
+              register={register("phone", {
+                required: "El teléfono es obligatorio",
+                minLength: { value: 6, message: "Teléfono inválido" },
+              })}
+              error={errors.phone}
+            />
+
+            <div className="h-px bg-gray-300 my-2" />
+
+            {/* === ENVÍO === */}
+            <h3 className="font-bold text-[#03265D]">Dirección de envío</h3>
+
+            <SelectCountry register={register} error={errors.pais} />
+
+            <Input
+              placeholder="Código Postal"
+              register={register("codigoPostal", {
+                required: "El código postal es obligatorio",
+              })}
+              error={errors.codigoPostal}
+            />
+
+            <Input
+              placeholder="Calle"
+              register={register("calle", {
+                required: "La calle es obligatoria",
+              })}
+              error={errors.calle}
+            />
+
+            <div className="flex gap-2">
+              <Input
+                placeholder="Número"
+                register={register("numero", {
+                  required: "El número es obligatorio",
+                })}
+                error={errors.numero}
+              />
+              <input
+                placeholder="Piso (opcional)"
+                {...register("piso")}
+                className="border p-2 rounded w-full"
+              />
+            </div>
+
+            <div className="h-px bg-gray-300 my-2" />
+
+            {/* === RESUMEN === */}
+            <div className="flex justify-between font-bold text-lg">
+              <span>Total</span>
+              <span>${totalPrice}</span>
+            </div>
+
+            {apiError && (
+              <p className="text-red-500 font-bold text-sm flex items-center gap-1">
+                <LuTriangleAlert className="size-4" />
+                {apiError}
+              </p>
+            )}
+
+            <button
+              type="submit"
+              disabled={!isValid || loading}
+              className={`font-bold cursor-pointer p-2 rounded transition-colors 
+                ${
+                  isValid && !loading
+                    ? "bg-[#03265D] text-white hover:bg-[#021a40]"
+                    : "bg-gray-400 text-gray-200 cursor-not-allowed"
+                }`}
+            >
+              {loading ? "Procesando pago..." : "Confirmar pago"}
+            </button>
+          </form>
+        </div>
       </div>
 
-      {/* MODAL */}
+      {/* === MODAL === */}
       {modalOpen && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
           <div className="bg-white rounded-xl p-8 max-w-sm text-center shadow-lg">
-            <h2 className="text-2xl font-bold mb-4">¡Gracias por tu compra!</h2>
-            <p className="text-lg mb-6">
-              Tu número de orden es:{" "}
+            <h2 className="text-2xl font-bold mb-4">¡Compra realizada!</h2>
+            <p className="mb-6">
+              Orden Nº{" "}
               <strong className="bg-[#03265D] text-white px-2 py-1 rounded">
                 {orderId}
               </strong>
@@ -219,7 +251,7 @@ const CheckoutForm = () => {
               }}
               className="px-4 py-2 bg-[#03265D] text-white rounded font-semibold cursor-pointer"
             >
-              Cerrar
+              Volver al inicio
             </button>
           </div>
         </div>
@@ -229,3 +261,21 @@ const CheckoutForm = () => {
 };
 
 export default CheckoutForm;
+
+/* === INPUT REUTILIZABLE === */
+const Input = ({ type = "text", placeholder, register, error }) => (
+  <div className="w-full">
+    <input
+      type={type}
+      placeholder={placeholder}
+      {...register}
+      className="border p-2 rounded w-full"
+    />
+    {error && (
+      <p className="text-red-500 mt-1 text-sm font-bold flex items-center gap-1">
+        <LuTriangleAlert className="size-4" />
+        {error.message}
+      </p>
+    )}
+  </div>
+);
