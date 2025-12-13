@@ -1,5 +1,6 @@
 import { Outlet } from "react-router-dom";
 import NavBar from "../components/navBar/navBar.jsx";
+import {Footer} from "../components/footer/footer.jsx";
 
 export default function Layout() {
   return (
@@ -8,6 +9,7 @@ export default function Layout() {
       <main className="justify-center items-start">
         <Outlet />
       </main>
+      <Footer />
     </div>
   );
 }
