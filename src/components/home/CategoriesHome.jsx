@@ -42,7 +42,6 @@ export default function Categories() {
                 className="w-24 h-24 md:w-40 md:h-40 object-contain"
               />
 
-              {/* Texto responsivo */}
               <p className="mt-3 font-semibold text-sm md:text-xl text-center leading-tight md:line-clamp-2">
                 {cat.name}
               </p>
