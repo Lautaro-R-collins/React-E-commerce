@@ -24,10 +24,10 @@ const CardProduct = ({ product }) => {
       </button>
       {/* product */}
       <Link to={`/product/${product._id}`} className="block bg-gray-100">
-        <div className="w-full h-52 bg-gray-100">
+        <div className="w-full h-80 bg-gray-100">
           {product.images && product.images.length > 1 ? (
             <figure className="hover-gallery h-full">
-              {product.images.slice(0, 4).map((img, idx) => (
+              {product.images.slice(0, 2).map((img, idx) => (
                 <img
                   key={idx}
                   src={img}
