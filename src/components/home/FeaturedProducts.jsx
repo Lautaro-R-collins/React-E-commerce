@@ -8,8 +8,14 @@ import { Link } from "react-router-dom";
 import FeaturedProductSkeleton from "./FeaturedProductSkeleton.jsx";
 
 export default function FeaturedProducts() {
-  const { products, loading } = useProduct();
-  const destacados = products.slice(0, 12);
+  const { discountedProducts, loading } = useProduct();
+
+  const destacados = discountedProducts.slice(0, 12);
+
+  // Si no hay productos con descuento, no se renderiza nada
+  if (!loading && destacados.length === 0) {
+    return null;
+  }
 
   return (
     <div className="w-full mt-6 p-4">
@@ -27,7 +33,7 @@ export default function FeaturedProducts() {
         }}
       >
         {loading
-          ? Array.from({ length: 8 }).map((_, i) => (
+          ? Array.from({ length: 10 }).map((_, i) => (
               <SwiperSlide key={i}>
                 <FeaturedProductSkeleton />
               </SwiperSlide>
@@ -43,12 +49,27 @@ export default function FeaturedProducts() {
                     alt={item.name}
                     className="w-32 h-32 object-contain mb-2"
                   />
+
                   <p className="text-sm font-semibold text-gray-700 text-center line-clamp-2">
                     {item.name}
                   </p>
-                  <p className="text-[#00a650] font-bold text-lg mt-1">
-                    ${item.price}
-                  </p>
+
+                  <div className="flex items-center gap-2">
+                    <span className="text-gray-400 line-through text-sm">
+                      ${item.price}
+                    </span>
+
+                    <span className="text-[#00a650] font-bold text-lg">
+                      $
+                      {Math.round(
+                        item.price - (item.price * item.discount) / 100
+                      )}
+                    </span>
+                  </div>
+
+                  <span className="text-red-500 text-xs font-semibold">
+                    {item.discount}% OFF
+                  </span>
                 </Link>
               </SwiperSlide>
             ))}
