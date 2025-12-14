@@ -24,13 +24,27 @@ const CardProduct = ({ product }) => {
       </button>
       {/* product */}
       <Link to={`/product/${product._id}`} className="block bg-gray-100">
-        <div className="w-full h-52 flex items-center justify-center bg-gray-100">
-          <img
-            src={product.images?.[0] || "/placeholder.jpg"}
-            alt={product.name}
-            className="w-full h-full object-contain p-2"
-            loading="lazy"
-          />
+        <div className="w-full h-52 bg-gray-100">
+          {product.images && product.images.length > 1 ? (
+            <figure className="hover-gallery h-full">
+              {product.images.slice(0, 4).map((img, idx) => (
+                <img
+                  key={idx}
+                  src={img}
+                  alt={`${product.name}-${idx}`}
+                  className="w-full h-full object-contain p-2"
+                  loading="lazy"
+                />
+              ))}
+            </figure>
+          ) : (
+            <img
+              src={product.images?.[0] || "/placeholder.jpg"}
+              alt={product.name}
+              className="w-full h-full object-contain p-2"
+              loading="lazy"
+            />
+          )}
         </div>
 
         <div className="p-4 flex flex-col gap-2 flex-1">
