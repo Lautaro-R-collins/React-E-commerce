@@ -18,6 +18,7 @@ const categories = {
   ropa: ["remeras", "pantalones", "zapatos", "accesorios"],
   tecnologia: ["celulares", "tablet", "notebook", "otros"],
   hogar: ["muebles", "jardin"],
+  electrodomesticos: [],
   ofertas: [],
 };
 
