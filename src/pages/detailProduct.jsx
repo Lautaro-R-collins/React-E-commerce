@@ -7,6 +7,7 @@ import { LuX } from "react-icons/lu";
 import CardProduct from "../components/products/CardProduct.jsx";
 import { getReviews, createReview } from "../services/reviewService.js";
 import { useUser } from "../context/userContext.jsx";
+import Breadcrumbs from "../components/ui/Breadcrumbs.jsx";
 
 export const DetailProduct = () => {
   const { id } = useParams();
@@ -45,8 +46,9 @@ export const DetailProduct = () => {
 
   if (productLoading) {
     return (
-      <div className="flex justify-center items-center min-h-[70vh]">
-        <p className="text-xl font-semibold">Cargando el producto...</p>
+      <div className="flex flex-col justify-center items-center min-h-[70vh] gap-4">
+        <span className="loading loading-dots loading-xl text-[#03265D]"></span>
+        <p className="text-gray-600 font-medium">Cargando productos</p>
       </div>
     );
   }
@@ -64,6 +66,17 @@ export const DetailProduct = () => {
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-10">
+      <Breadcrumbs
+        items={[
+          { label: "Inicio", href: "/" },
+          {
+            label: product.category,
+            href: `/category/${product.category}`,
+          },
+          { label: product.name },
+        ]}
+      />
+
       <h2 className="text-3xl font-bold text-center mb-10">{product.name}</h2>
 
       <div className="flex flex-col lg:flex-row gap-10">

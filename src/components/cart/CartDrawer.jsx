@@ -15,9 +15,7 @@ const CartDrawer = ({ isOpen, onClose }) => {
     if (!product.discountActive || product.discount <= 0) {
       return product.price;
     }
-    return Math.round(
-      product.price - (product.price * product.discount) / 100
-    );
+    return Math.round(product.price - (product.price * product.discount) / 100);
   };
 
   // ---- TOTAL CON DESCUENTO ----

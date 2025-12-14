@@ -1,4 +1,5 @@
 import { createContext, useState, useEffect } from "react";
+import { toast } from "react-toastify";
 
 const CartContext = createContext();
 
@@ -20,19 +21,28 @@ export const CartProvider = ({ children }) => {
 
   // Agregar producto
   const addItem = (product, quantity) => {
-    const existingItem = cart.find((item) => item.product._id === product._id);
+    setCart((prev) => {
+      const existing = prev.find((item) => item.product._id === product._id);
 
-    if (existingItem) {
-      setCart(
-        cart.map((item) =>
+      const currentQty = existing ? existing.quantity : 0;
+      const newQty = currentQty + quantity;
+
+      // VALIDACIÓN DE STOCK
+      if (newQty > product.stock) {
+        toast.error(`Stock máximo disponible: ${product.stock}`);
+        return prev;
+      }
+
+      if (existing) {
+        return prev.map((item) =>
           item.product._id === product._id
-            ? { ...item, quantity: item.quantity + quantity }
+            ? { ...item, quantity: newQty }
             : item
-        )
-      );
-    } else {
-      setCart([...cart, { product, quantity }]);
-    }
+        );
+      }
+
+      return [...prev, { product, quantity }];
+    });
   };
 
   const clearCart = () => setCart([]);
