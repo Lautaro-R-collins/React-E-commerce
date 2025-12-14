@@ -40,7 +40,7 @@ export const Footer = () => {
         <div>
           <h4 className="font-semibold mb-3">Contacto</h4>
           <ul className="text-sm text-white/80 flex flex-col gap-2">
-            <li>Email: contacto@tutienda.com</li>
+            <li>Email: contacto@tiendita.com</li>
             <li>WhatsApp: +54 9 11 1234-5678</li>
             <li>Argentina</li>
           </ul>
@@ -49,7 +49,7 @@ export const Footer = () => {
 
       {/* BOTTOM */}
       <div className="border-t border-white/10 text-center py-4 text-sm text-white/60">
-        © {new Date().getFullYear()} TuTienda. Todos los derechos reservados.
+        © {new Date().getFullYear()} Tiendita. Todos los derechos reservados.
       </div>
     </footer>
   );
