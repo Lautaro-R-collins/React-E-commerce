@@ -12,7 +12,7 @@ const images = [
   },
   {
     id: 2,
-    src: "https://http2.mlstatic.com/D_NQ_917821-MLA100666733321_122025-OO.webp",
+    src: "https://http2.mlstatic.com/storage/splinter-admin/o:f_webp,q_auto:best/1764797409205-3e444e50-d08f-11f0-83a3-73f47fda0910.png",
     alt: "Segunda imagen",
   },
   {
