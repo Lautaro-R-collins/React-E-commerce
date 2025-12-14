@@ -15,6 +15,7 @@ import { Home } from "./pages/Home.jsx";
 import { Login } from "./pages/Login.jsx";
 import { Register } from "./pages/Register.jsx";
 import { DetailProduct } from "./pages/detailProduct.jsx";
+import ScrollToTop from "./components/ui/ScrollToTop.jsx";
 import CategoryPage from "./pages/CategoryPage.jsx";
 import NotFound from "./pages/NotFound.jsx";
 import SearchResults from "./pages/SearchResults.jsx";
@@ -27,6 +28,8 @@ function App() {
       <UserProvider>
         <ProductProvider>
           <CartProvider>
+            <ScrollToTop />
+
             <Routes>
               <Route path="/" element={<Layout />}>
                 <Route index element={<Home />} />
@@ -41,11 +44,13 @@ function App() {
                 <Route path="/checkout" element={<CheckoutForm />} />
                 <Route path="/favorites" element={<FavoritesPage />} />
               </Route>
+
               <Route path="*" element={<NotFound />} />
             </Routes>
           </CartProvider>
         </ProductProvider>
       </UserProvider>
+
       <ToastContainer
         position="top-right"
         autoClose={3000}
