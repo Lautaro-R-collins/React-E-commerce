@@ -5,8 +5,8 @@ import {
   useEffect,
   useCallback,
 } from "react";
-
 import axios from "axios";
+
 axios.defaults.withCredentials = true;
 
 const API_URL = import.meta.env.VITE_BACKEND_URL + "/products";
@@ -22,18 +22,30 @@ export const ProductProvider = ({ children }) => {
 
   const [error, setError] = useState(null);
 
-  // Obtener TODOS los productos
+  // =========================
+  // OBTENER TODOS LOS PRODUCTOS
+  // =========================
   const getProducts = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
 
       const response = await axios.get(API_URL);
-
       setProducts(response.data);
-    } catch (error) {
-      console.error("Error fetching products:", error);
-      setError("Error al obtener productos");
+    } catch (err) {
+      console.error("Error fetching products:", err);
+
+      // SIN CONEXIÓN
+      if (!navigator.onLine || !err.response) {
+        setError({ type: "NETWORK" });
+      } else {
+        setError({
+          type: "SERVER",
+          message:
+            err.response?.data?.message ||
+            "Error interno del servidor",
+        });
+      }
     } finally {
       setLoading(false);
     }
@@ -43,18 +55,28 @@ export const ProductProvider = ({ children }) => {
     getProducts();
   }, [getProducts]);
 
-  //  Obtener un producto por ID
+  // =========================
+  // OBTENER PRODUCTO POR ID
+  // =========================
   const getProductById = useCallback(async (id) => {
     try {
       setProductLoading(true);
       setError(null);
 
       const response = await axios.get(`${API_URL}/${id}`);
-
       setProduct(response.data);
-    } catch (error) {
-      console.error("Error fetching product:", error);
-      setError("Producto no encontrado");
+    } catch (err) {
+      console.error("Error fetching product:", err);
+
+      if (!navigator.onLine || !err.response) {
+        setError({ type: "NETWORK" });
+      } else {
+        setError({
+          type: "NOT_FOUND",
+          message: "Producto no encontrado",
+        });
+      }
+
       setProduct({});
     } finally {
       setProductLoading(false);
@@ -64,18 +86,17 @@ export const ProductProvider = ({ children }) => {
   return (
     <ProductContext.Provider
       value={{
-        // Estados globales
         products,
         loading,
         error,
 
-        // Un producto
         product,
         productLoading,
 
-        // Funciones
         getProducts,
         getProductById,
+
+        refetch: getProducts,
       }}
     >
       {children}
