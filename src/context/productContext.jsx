@@ -4,6 +4,7 @@ import {
   useState,
   useEffect,
   useCallback,
+  useMemo,
 } from "react";
 import axios from "axios";
 
@@ -35,15 +36,12 @@ export const ProductProvider = ({ children }) => {
     } catch (err) {
       console.error("Error fetching products:", err);
 
-      // SIN CONEXIÓN
       if (!navigator.onLine || !err.response) {
         setError({ type: "NETWORK" });
       } else {
         setError({
           type: "SERVER",
-          message:
-            err.response?.data?.message ||
-            "Error interno del servidor",
+          message: err.response?.data?.message || "Error interno del servidor",
         });
       }
     } finally {
@@ -83,10 +81,18 @@ export const ProductProvider = ({ children }) => {
     }
   }, []);
 
+  // =========================
+  // PRODUCTOS CON DESCUENTO
+  // =========================
+  const discountedProducts = useMemo(() => {
+    return products.filter((p) => p.discountActive && p.discount > 0);
+  }, [products]);
+
   return (
     <ProductContext.Provider
       value={{
         products,
+        discountedProducts,
         loading,
         error,
 

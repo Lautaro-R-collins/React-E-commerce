@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback, useMemo, useRef } from "react";
+import { useProduct } from "../context/productContext.jsx";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
@@ -16,12 +17,15 @@ const PRODUCTS_PER_PAGE = 8;
 
 const CategoryPage = () => {
   const { category, subcategory } = useParams();
+  const { discountedProducts } = useProduct();
   const catalogRef = useRef(null);
 
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
+
+  const isOffersPage = category === "ofertas";
 
   const fetchProducts = useCallback(async () => {
     try {
@@ -56,8 +60,15 @@ const CategoryPage = () => {
   }, [category, subcategory]);
 
   useEffect(() => {
-    fetchProducts();
-  }, [fetchProducts]);
+    if (isOffersPage) {
+      setProducts(discountedProducts);
+      setLoading(false);
+      setError(null);
+      setCurrentPage(1);
+    } else {
+      fetchProducts();
+    }
+  }, [isOffersPage, fetchProducts, discountedProducts]);
 
   // PAGINADO
   const totalPages = Math.ceil(products.length / PRODUCTS_PER_PAGE);
