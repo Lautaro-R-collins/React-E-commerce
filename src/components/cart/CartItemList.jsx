@@ -7,9 +7,7 @@ const CartItemList = ({ cart, removeItem }) => {
         const product = item.product;
 
         const finalPrice = product.discountActive
-          ? Math.round(
-              product.price - (product.price * product.discount) / 100
-            )
+          ? Math.round(product.price - (product.price * product.discount) / 100)
           : product.price;
 
         return (
