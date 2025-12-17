@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { LuTriangleAlert } from "react-icons/lu";
 import { registerService } from "../../services/authService.js";
+import { toast } from "react-toastify";
 
 export const RegisterForm = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -22,15 +23,26 @@ export const RegisterForm = () => {
   const { userInfo, checkSession } = useUser();
 
   const onSubmit = async (data) => {
-    const payload = {
-      username: `${data.firstName} ${data.lastName}`,
-      email: data.email,
-      password: data.password,
-    };
+    try {
+      const payload = {
+        username: `${data.firstName} ${data.lastName}`,
+        email: data.email,
+        password: data.password,
+      };
 
-    await registerService(payload, reset);
-    await checkSession();
-    setRedirect(true);
+      await registerService(payload, reset);
+      await checkSession();
+      setRedirect(true);
+
+      toast.success("Usuario registrado con éxito");
+
+      await checkSession();
+      setRedirect(true);
+    } catch (error) {
+      const message = error?.response?.data?.message || "Error al registrarse";
+
+      toast.error(message);
+    }
   };
 
   // Redirección basada en rol
