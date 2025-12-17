@@ -53,3 +53,19 @@ export const logoutService = async () => {
   );
   return response.data;
 };
+
+
+export const uploadAvatar = async (file) => {
+  const formData = new FormData()
+  formData.append('avatar', file)
+
+  const { data } = await axios.put(
+    `${API_URL}/avatar`,
+    formData,
+    {
+      withCredentials: true,
+    }
+  )
+
+  return data
+}
