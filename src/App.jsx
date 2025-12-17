@@ -9,6 +9,7 @@ import { CartProvider } from "./context/CartContext.jsx";
 import { FavoritesProvider } from "./context/FavoritesContext";
 import { UserProvider } from "./context/userContext.jsx";
 import { ProductProvider } from "./context/productContext.jsx";
+import Profile from "./pages/Profile.jsx";
 
 // rutas pages
 import { Home } from "./pages/Home.jsx";
@@ -21,6 +22,9 @@ import NotFound from "./pages/NotFound.jsx";
 import SearchResults from "./pages/SearchResults.jsx";
 import CheckoutForm from "./pages/CheckoutForm.jsx";
 import FavoritesPage from "./pages/FavoritesPage.jsx";
+import DashboardHome from "./pages/admin/DashboardHome.jsx";
+import ProtectedRoute from "./components/protectedRoutes/protectedRoutes.jsx";
+import DashboardLayout from "./layout/DashboardLayout.jsx";
 
 function App() {
   return (
@@ -43,9 +47,22 @@ function App() {
                 <Route path="/search" element={<SearchResults />} />
                 <Route path="/checkout" element={<CheckoutForm />} />
                 <Route path="/favorites" element={<FavoritesPage />} />
+                <Route path="profile" element={<Profile />} />
               </Route>
 
               <Route path="*" element={<NotFound />} />
+
+              <Route
+                path="/dashboard"
+                element={
+                  <ProtectedRoute>
+                    <DashboardLayout />
+                  </ProtectedRoute>
+                }
+              >
+                <Route index element={<DashboardHome />} />
+                <Route path="profile" element={<Profile />} />
+              </Route>
             </Routes>
           </CartProvider>
         </ProductProvider>
