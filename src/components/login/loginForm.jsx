@@ -5,6 +5,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { LuTriangleAlert } from "react-icons/lu";
 import { loginService } from "../../services/authService.js";
 import { useUser } from "../../context/userContext.jsx";
+import { toast } from "react-toastify";
 
 export const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -22,12 +23,19 @@ export const LoginForm = () => {
   const onSubmit = async (data) => {
     try {
       const result = await loginService(data);
+
       setUserInfo(result.user);
       await checkSession();
+
+      toast.success("Sesión iniciada correctamente");
+
       reset();
       setRedirect(true);
     } catch (error) {
-      console.error("Error al iniciar sesión:", error);
+      const message =
+        error?.response?.data?.message || "Email o contraseña incorrectos";
+
+      toast.error(message);
     }
   };
 

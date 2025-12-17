@@ -56,7 +56,7 @@ export default function FavoritesPage() {
       <div className="flex justify-center mt-8 mb-10">
         <button
           onClick={clearFavorites}
-          className="bg-[#03265D] text-white px-6 py-2 rounded-md font-semibold shadow hover:bg-[#02193d] transition-colors"
+          className="bg-[#03265D] cursor-pointer text-white px-6 py-2 rounded-md font-semibold shadow hover:bg-[#02193d] transition-colors"
         >
           Limpiar Favoritos
         </button>

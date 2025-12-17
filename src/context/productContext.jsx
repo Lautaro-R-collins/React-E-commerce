@@ -7,6 +7,7 @@ import {
   useMemo,
 } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 axios.defaults.withCredentials = true;
 
@@ -24,26 +25,16 @@ export const ProductProvider = ({ children }) => {
   const [error, setError] = useState(null);
 
   // =========================
-  // OBTENER TODOS LOS PRODUCTOS
+  // GET ALL PRODUCTS
   // =========================
   const getProducts = useCallback(async () => {
     try {
       setLoading(true);
-      setError(null);
-
-      const response = await axios.get(API_URL);
-      setProducts(response.data);
+      const res = await axios.get(API_URL);
+      setProducts(res.data);
     } catch (err) {
-      console.error("Error fetching products:", err);
-
-      if (!navigator.onLine || !err.response) {
-        setError({ type: "NETWORK" });
-      } else {
-        setError({
-          type: "SERVER",
-          message: err.response?.data?.message || "Error interno del servidor",
-        });
-      }
+      toast.error("Error al cargar productos");
+      console.error(err);
     } finally {
       setLoading(false);
     }
@@ -54,27 +45,15 @@ export const ProductProvider = ({ children }) => {
   }, [getProducts]);
 
   // =========================
-  // OBTENER PRODUCTO POR ID
+  // GET PRODUCT BY ID
   // =========================
   const getProductById = useCallback(async (id) => {
     try {
       setProductLoading(true);
-      setError(null);
-
-      const response = await axios.get(`${API_URL}/${id}`);
-      setProduct(response.data);
-    } catch (err) {
-      console.error("Error fetching product:", err);
-
-      if (!navigator.onLine || !err.response) {
-        setError({ type: "NETWORK" });
-      } else {
-        setError({
-          type: "NOT_FOUND",
-          message: "Producto no encontrado",
-        });
-      }
-
+      const res = await axios.get(`${API_URL}/${id}`);
+      setProduct(res.data);
+    } catch {
+      toast.error("Producto no encontrado");
       setProduct({});
     } finally {
       setProductLoading(false);
@@ -82,11 +61,57 @@ export const ProductProvider = ({ children }) => {
   }, []);
 
   // =========================
-  // PRODUCTOS CON DESCUENTO
+  // CREATE PRODUCT (ADMIN)
   // =========================
-  const discountedProducts = useMemo(() => {
-    return products.filter((p) => p.discountActive && p.discount > 0);
-  }, [products]);
+  const createProduct = async (data) => {
+    try {
+      await axios.post(API_URL, data);
+      toast.success("Producto creado correctamente");
+      await getProducts();
+    } catch (err) {
+      toast.error("Error al crear producto");
+      console.error(err);
+      throw err;
+    }
+  };
+
+  // =========================
+  // UPDATE PRODUCT (ADMIN)
+  // =========================
+  const updateProduct = async (id, data) => {
+    try {
+      await axios.put(`${API_URL}/${id}`, data);
+      toast.success("Producto actualizado");
+      await getProducts();
+    } catch (err) {
+      toast.error("Error al actualizar producto");
+      console.error(err);
+      throw err;
+    }
+  };
+
+  // =========================
+  // DELETE PRODUCT (ADMIN)
+  // =========================
+  const deleteProduct = async (id) => {
+    try {
+      await axios.delete(`${API_URL}/${id}`);
+      toast.success("Producto eliminado");
+      await getProducts();
+    } catch (err) {
+      toast.error("Error al eliminar producto");
+      console.error(err);
+      throw err;
+    }
+  };
+
+  // =========================
+  // DISCOUNTED PRODUCTS
+  // =========================
+  const discountedProducts = useMemo(
+    () => products.filter(p => p.discountActive && p.discount > 0),
+    [products]
+  );
 
   return (
     <ProductContext.Provider
@@ -102,7 +127,9 @@ export const ProductProvider = ({ children }) => {
         getProducts,
         getProductById,
 
-        refetch: getProducts,
+        createProduct,
+        updateProduct,
+        deleteProduct,
       }}
     >
       {children}

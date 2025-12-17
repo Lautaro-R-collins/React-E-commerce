@@ -4,6 +4,7 @@ import Authbuttons from "./authbuttons.jsx";
 import Avatar from "./avatar.jsx";
 import CartWidget from "../cart/CartWidget.jsx";
 import SearchBar from "./SearchBar.jsx";
+import NavFavorites from "./NavFavorites";
 
 import logoMobil from "../../assets/logo/logoTienditaMobil.png";
 import { FaBars, FaTimes, FaSearch } from "react-icons/fa";
@@ -29,6 +30,8 @@ export default function MobileNavbar({
           </Link>
 
           <div className="ml-auto flex items-center gap-3">
+            <NavFavorites />
+
             {/* BUSCAR */}
             <button onClick={() => setShowSearch((prev) => !prev)}>
               <FaSearch className="h-5 w-5 text-[#03265D]" />
@@ -39,14 +42,13 @@ export default function MobileNavbar({
               <CartWidget />
             </button>
 
-            {/* LOGIN / AVATAR */}
-            {!loading && !userInfo.id && <Authbuttons />}
-            {!loading && userInfo.id && <Avatar />}
-
             {/* MENU */}
             <label htmlFor="menu-drawer" className="cursor-pointer">
               <FaBars className="h-6 w-6 text-[#03265D]" />
             </label>
+            {/* LOGIN / AVATAR */}
+            {!loading && !userInfo.id && <Authbuttons />}
+            {!loading && userInfo.id && <Avatar />}
           </div>
 
           {/* BARRA DE BÚSQUEDA */}
