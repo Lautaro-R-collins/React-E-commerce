@@ -1,4 +1,5 @@
 import { createContext, useState, useEffect } from "react";
+import { toast } from "react-toastify";
 
 const FavoritesContext = createContext();
 
@@ -13,16 +14,25 @@ export const FavoritesProvider = ({ children }) => {
   }, [favorites]);
 
   const addToFavorites = (product) => {
-    if (!favorites.some((fav) => fav._id === product._id)) {
-      setFavorites([...favorites, product]);
-    }
+    const exists = favorites.some((fav) => fav._id === product._id);
+    if (exists) return;
+
+    setFavorites((prev) => [...prev, product]);
+
+    toast.success("Producto agregado a favoritos");
   };
 
   const removeFromFavorites = (_id) => {
-    setFavorites(favorites.filter((fav) => fav._id !== _id));
+    setFavorites((prev) => prev.filter((fav) => fav._id !== _id));
+
+    toast.info("Producto eliminado de favoritos");
   };
 
-  const clearFavorites = () => setFavorites([]);
+  const clearFavorites = () => {
+    setFavorites([]);
+
+    toast.success("Favoritos limpiados");
+  };
 
   const isFavorite = (_id) => favorites.some((fav) => fav._id === _id);
 
