@@ -1,18 +1,38 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useUser } from "../../context/userContext.jsx";
 import { logoutService } from "../../services/authService.js";
+import { LuLayoutDashboard, LuUser, LuLogOut } from "react-icons/lu";
 
-// ICONOS
-import {
-  LuLayoutDashboard,
-  LuUser,
-  LuSettings,
-  LuLogOut,
-} from "react-icons/lu";
+// 🔒 helper seguro
+const getAvatarUrl = (avatar) => {
+  if (!avatar) return null;
+
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
+  if (!backendUrl) return null;
+
+  const cleanBackendUrl = backendUrl.replace(/\/api\/?$/, "");
+  return `${cleanBackendUrl}${avatar}?t=${Date.now()}`;
+};
+
+// 🎨 color estable por usuario
+const stringToColor = (str = "") => {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  const hue = Math.abs(hash) % 360;
+  return `hsl(${hue}, 70%, 45%)`;
+};
+
+const getInitial = (name = "") => (name ? name.charAt(0).toUpperCase() : "?");
 
 const Avatar = () => {
   const { userInfo, setUserInfo } = useUser();
   const navigate = useNavigate();
+
+  const avatarUrl = getAvatarUrl(userInfo?.avatar);
+  const initial = getInitial(userInfo?.username);
+  const bgColor = stringToColor(userInfo?.username);
 
   const handleLogout = async () => {
     try {
@@ -26,9 +46,22 @@ const Avatar = () => {
 
   return (
     <div className="dropdown dropdown-end">
-      <div tabIndex={0} role="button" className="avatar cursor-pointer">
-        <div className="w-10 rounded-full">
-          <img src="https://i.pravatar.cc/300" alt="User avatar" />
+      <div tabIndex={0} role="button" className="cursor-pointer">
+        <div className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center">
+          {avatarUrl ? (
+            <img
+              src={avatarUrl}
+              alt="User avatar"
+              className="w-full h-full object-cover"
+            />
+          ) : (
+            <div
+              className="w-full h-full flex items-center justify-center text-white font-semibold"
+              style={{ backgroundColor: bgColor }}
+            >
+              {initial}
+            </div>
+          )}
         </div>
       </div>
 
@@ -52,16 +85,6 @@ const Avatar = () => {
           >
             <LuUser />
             Perfil
-          </Link>
-        </li>
-
-        <li>
-          <Link
-            to="/settings"
-            className="flex items-center gap-2 hover:bg-[#03265D]/15 rounded-md"
-          >
-            <LuSettings />
-            Configuración
           </Link>
         </li>
 
