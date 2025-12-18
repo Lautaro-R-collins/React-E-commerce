@@ -16,7 +16,7 @@ export const Home = () => {
   const { products, loading, error, refetch } = useProduct();
   const catalogTitleRef = useRef(null);
   // PAGINADO
-  const PRODUCTS_PER_PAGE = 12;
+  const PRODUCTS_PER_PAGE = 16;
   const [currentPage, setCurrentPage] = useState(1);
 
   const totalPages = Math.ceil(products.length / PRODUCTS_PER_PAGE);
