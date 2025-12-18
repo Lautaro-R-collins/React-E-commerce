@@ -9,7 +9,7 @@ import { getReviews, createReview } from "../services/reviewService.js";
 import { useUser } from "../context/userContext.jsx";
 import Breadcrumbs from "../components/ui/Breadcrumbs.jsx";
 
-export const DetailProduct = () => {
+const DetailProduct = () => {
   const { id } = useParams();
   const { product, productLoading, error, getProductById, products } =
     useProduct();
@@ -306,3 +306,5 @@ export const DetailProduct = () => {
     </div>
   );
 };
+
+export default DetailProduct;

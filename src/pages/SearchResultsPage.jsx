@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
+
 import CardProduct from "../components/products/CardProduct.jsx";
-import { FiSearch } from "react-icons/fi";
+import SearchEmptyState from "../components/search/SearchEmptyState.jsx";
 
 const BACKEND = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000/api";
 
@@ -39,16 +40,12 @@ export default function SearchResults() {
 
   return (
     <div className="w-full max-w-6xl mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-6">Resultados de {queryParam}</h1>
+      <h1 className="text-2xl font-bold mb-6">
+        Resultados de {queryParam}
+      </h1>
 
       {!loading && results.length === 0 && queryParam.trim().length >= 2 && (
-        <div className="flex flex-col items-center justify-center py-20 text-gray-400">
-          <FiSearch className="text-7xl mb-6 opacity-70" />
-          <p className="text-xl font-medium">No se encontraron resultados</p>
-          <p className="text-sm mt-2 text-gray-500">
-            Probá con otro término de búsqueda
-          </p>
-        </div>
+        <SearchEmptyState />
       )}
 
       {!loading && results.length > 0 && (

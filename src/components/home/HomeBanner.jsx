@@ -21,23 +21,14 @@ export const HomeBanner = () => {
         {/* OVERLAY */}
         <div className="absolute inset-0 bg-black/80"></div>
 
-        <div className="relative text-white max-w-xl">
-          <h2 className="text-2xl md:text-3xl font-bold mb-3">
+        <div className="relative text-white max-w-xl text-center">
+          <h2 className="text-2xl md:text-4xl font-bold mb-3">
             ¿Listo para mejorar tu setup?
           </h2>
-          <p className="text-white/80 text-sm md:text-base">
+          <p className="text-white/80 text-sm md:text-base font-semibold">
             Descubrí productos seleccionados con descuentos exclusivos y stock
             limitado. Comprá hoy y recibilos en la puerta de tu casa.
           </p>
-        </div>
-
-        <div className="relative flex gap-4">
-          <Link
-            to="/"
-            className="bg-white text-[#03265D] font-bold px-6 py-3 rounded-lg hover:bg-gray-100 transition"
-          >
-            Ver productos
-          </Link>
         </div>
       </div>
     </section>
