@@ -52,7 +52,7 @@ const Profile = () => {
     try {
       const res = await uploadAvatar(file);
 
-      await checkSession(); // sincroniza navbar
+      await checkSession(); 
 
       setUser((prev) => ({
         ...prev,
