@@ -16,7 +16,7 @@ import logo from "../../assets/logo/LogoTiendita.png";
 // CATEGORIAS
 const categories = {
   ropa: ["remeras", "pantalones", "zapatos", "accesorios"],
-  tecnologia: ["celulares", "tablet", "notebook", "otros"],
+  tecnologia: ["celulares", "notebook", "otros"],
   hogar: ["muebles", "jardin"],
   electrodomesticos: [],
   ofertas: [],
