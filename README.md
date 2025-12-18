@@ -146,6 +146,9 @@ Este proyecto fue creado con fines **educativos y de portfolio**, simulando un e
 
 ---
 
+![ecommers](https://github.com/user-attachments/assets/fa73d857-c0fd-49f5-a6bd-24f9d7b07e73)
+
+
 ## 👨‍💻 Autor
 
 Desarrollado por **Lautaro Rodríguez Collins**.
