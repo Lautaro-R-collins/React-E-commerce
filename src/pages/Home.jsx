@@ -12,7 +12,7 @@ import ConnectionError from "../components/ui/ConnectionError.jsx";
 import Pagination from "../components/ui/Pagination.jsx";
 import CarruselText from "../components/ui/CarruselText.jsx";
 
-export const Home = () => {
+const Home = () => {
   const { products, loading, error, refetch } = useProduct();
   const catalogTitleRef = useRef(null);
   // PAGINADO
@@ -74,3 +74,5 @@ export const Home = () => {
     </div>
   );
 };
+
+export default Home;
