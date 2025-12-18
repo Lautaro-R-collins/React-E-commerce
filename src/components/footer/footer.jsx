@@ -7,7 +7,7 @@ export const Footer = () => {
 
         {/* BRAND */}
         <div>
-          <h3 className="text-xl font-bold mb-2">TuTienda</h3>
+          <h3 className="text-xl font-bold mb-2">Tienda</h3>
           <p className="text-white/70 text-sm">
             Productos seleccionados para mejorar tu setup.
             Calidad, buen precio y envíos a todo el país.
