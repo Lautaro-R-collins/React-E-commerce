@@ -7,7 +7,7 @@ import { LuTriangleAlert } from "react-icons/lu";
 import { registerService } from "../../services/authService.js";
 import { toast } from "react-toastify";
 
-export const RegisterForm = () => {
+const RegisterForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [redirect, setRedirect] = useState(false);
 
@@ -187,3 +187,5 @@ export const RegisterForm = () => {
     </div>
   );
 };
+
+export default RegisterForm;
