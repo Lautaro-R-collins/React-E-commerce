@@ -5,7 +5,7 @@ Proyecto de **e-commerce full stack** desarrollado con **React + Vite** en el fr
 ## 🚀 Tecnologías utilizadas
 
 ### Frontend
-- **React 18**
+- **React**
 - **Vite**
 - **React Router DOM**
 - **Tailwind CSS**
