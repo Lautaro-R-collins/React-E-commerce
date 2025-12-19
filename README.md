@@ -85,13 +85,6 @@ src/
  └── main.jsx
 ```
 
-### Principios aplicados
-
-* Separación de responsabilidades
-* Componentes pequeños y reutilizables
-* Datos desacoplados de la UI (mocks)
-* Código legible y mantenible
-
 ---
 
 ## 🎨 Estilos
@@ -142,5 +135,3 @@ Este proyecto fue creado con fines **educativos y de portfolio**, simulando un e
 ## 👨‍💻 Autor
 
 Desarrollado por **Lautaro Rodríguez Collins**.
-
-Proyecto en constante evolución 🚀
