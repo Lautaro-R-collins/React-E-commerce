@@ -1,11 +1,9 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../../config/api.js";
+import axios from "axios"; // Needed for CancelToken
 
 import { FaSearch } from "react-icons/fa";
-
-const BACKEND = import.meta.env.VITE_BACKEND_URL || "";
-const SEARCH_URL = `${BACKEND}/products/search`;
 
 export default function SearchBar() {
   const [query, setQuery] = useState("");
@@ -36,7 +34,7 @@ export default function SearchBar() {
       if (cancelRef.current) cancelRef.current.cancel();
       cancelRef.current = axios.CancelToken.source();
 
-      const res = await axios.get(SEARCH_URL, {
+      const res = await api.get("/products/search", {
         params: { query: q },
         cancelToken: cancelRef.current.token,
       });
