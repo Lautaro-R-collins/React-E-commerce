@@ -1,11 +1,9 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import axios from "axios";
+import api from "../config/api";
 
 import CardProduct from "../components/products/CardProduct.jsx";
 import SearchEmptyState from "../components/search/SearchEmptyState.jsx";
-
-const BACKEND = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000/api";
 
 export default function SearchResults() {
   const location = useLocation();
@@ -23,7 +21,7 @@ export default function SearchResults() {
 
       try {
         setLoading(true);
-        const res = await axios.get(`${BACKEND}/products/search`, {
+        const res = await api.get("/products/search", {
           params: { query: queryParam.trim() },
         });
         setResults(Array.isArray(res.data) ? res.data : []);
