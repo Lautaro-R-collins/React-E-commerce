@@ -1,12 +1,8 @@
-import axios from "axios";
-
-const API_URL = import.meta.env.VITE_BACKEND_URL + "/auth";
-
-axios.defaults.withCredentials = true;
+import api from "../config/api";
 
 export const getProfileService = async () => {
   try {
-    const response = await axios.get(`${API_URL}/profile`);
+    const response = await api.get("/auth/profile");
     return response.data;
   } catch (error) {
     if (error.response && error.response.status === 404) {
@@ -18,11 +14,7 @@ export const getProfileService = async () => {
 
 export const loginService = async (data) => {
   try {
-    const response = await axios.post(`${API_URL}/login`, data, {
-      withCredentials: true,
-      headers: { "Content-Type": "application/json" },
-    });
-
+    const response = await api.post("/auth/login", data);
     return response.data;
   } catch (error) {
     if (error.response) throw error.response.data;
@@ -32,10 +24,7 @@ export const loginService = async (data) => {
 
 export const registerService = async (data, reset) => {
   try {
-    const response = await axios.post(`${API_URL}/register`, data, {
-      withCredentials: true,
-      headers: { "Content-Type": "application/json" },
-    });
+    const response = await api.post("/auth/register", data);
 
     if (response.status === 200 || response.status === 201) {
       reset && reset();
@@ -46,26 +35,17 @@ export const registerService = async (data, reset) => {
 };
 
 export const logoutService = async () => {
-  const response = await axios.post(
-    `${API_URL}/logout`,
-    {},
-    { withCredentials: true }
-  );
+  const response = await api.post("/auth/logout");
   return response.data;
 };
 
-
 export const uploadAvatar = async (file) => {
-  const formData = new FormData()
-  formData.append('avatar', file)
+  const formData = new FormData();
+  formData.append("avatar", file);
 
-  const { data } = await axios.put(
-    `${API_URL}/avatar`,
-    formData,
-    {
-      withCredentials: true,
-    }
-  )
+  const { data } = await api.put("/auth/avatar", formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
 
-  return data
-}
+  return data;
+};

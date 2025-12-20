@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback, useMemo, useRef } from "react";
 import { useProduct } from "../context/productContext.jsx";
 import { useParams } from "react-router-dom";
-import axios from "axios";
+import { getProductsService } from "../services/productService.js";
 
 import CardProduct from "../components/products/CardProduct.jsx";
 import CategoryHeader from "../components/category/CategoryHeader.jsx";
@@ -37,12 +37,9 @@ const CategoryPage = () => {
       if (category) params.category = category.toLowerCase();
       if (subcategory) params.subcategory = subcategory.toLowerCase();
 
-      const response = await axios.get(
-        import.meta.env.VITE_BACKEND_URL + "/products",
-        { params }
-      );
+      const data = await getProductsService(params);
 
-      setProducts(response.data);
+      setProducts(data);
     } catch (err) {
       console.error("Error loading category products:", err);
 
