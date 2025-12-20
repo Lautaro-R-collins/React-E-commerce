@@ -1,15 +1,11 @@
-import axios from "axios";
-
-const API_URL = import.meta.env.VITE_BACKEND_URL + "/reviews";
-
-axios.defaults.withCredentials = true;
+import api from "../config/api";
 
 export const getReviews = async (productId) => {
-  const res = await axios.get(`${API_URL}/${productId}`);
+  const res = await api.get(`/reviews/${productId}`);
   return res.data;
 };
 
 export const createReview = async (productId, data) => {
-  const res = await axios.post(`${API_URL}/${productId}`, data);
+  const res = await api.post(`/reviews/${productId}`, data);
   return res.data;
 };
