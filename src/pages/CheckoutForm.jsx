@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import useCart from "../context/useCart";
-import axios from "axios";
+import api from "../config/api";
 import { LuTriangleAlert } from "react-icons/lu";
 
 const COUNTRIES = [
@@ -102,10 +102,7 @@ const CheckoutForm = () => {
     };
 
     try {
-      const { data: response } = await axios.post(
-        "http://localhost:3000/api/orders",
-        order
-      );
+      const { data: response } = await api.post("/orders", order);
 
       setOrderId(response.orderId);
       setModalOpen(true);
