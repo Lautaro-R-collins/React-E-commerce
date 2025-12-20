@@ -6,12 +6,8 @@ import {
   useCallback,
   useMemo,
 } from "react";
-import axios from "axios";
+import api from "../config/api";
 import { toast } from "react-toastify";
-
-axios.defaults.withCredentials = true;
-
-const API_URL = import.meta.env.VITE_BACKEND_URL + "/products";
 
 const ProductContext = createContext({});
 
@@ -30,7 +26,7 @@ export const ProductProvider = ({ children }) => {
   const getProducts = useCallback(async () => {
     try {
       setLoading(true);
-      const res = await axios.get(API_URL);
+      const res = await api.get("/products");
       setProducts(res.data);
     } catch (err) {
       toast.error("Error al cargar productos");
@@ -50,7 +46,7 @@ export const ProductProvider = ({ children }) => {
   const getProductById = useCallback(async (id) => {
     try {
       setProductLoading(true);
-      const res = await axios.get(`${API_URL}/${id}`);
+      const res = await api.get(`/products/${id}`);
       setProduct(res.data);
     } catch {
       toast.error("Producto no encontrado");
@@ -65,7 +61,7 @@ export const ProductProvider = ({ children }) => {
   // =========================
   const createProduct = async (data) => {
     try {
-      await axios.post(API_URL, data);
+      await api.post("/products", data);
       toast.success("Producto creado correctamente");
       await getProducts();
     } catch (err) {
@@ -80,7 +76,7 @@ export const ProductProvider = ({ children }) => {
   // =========================
   const updateProduct = async (id, data) => {
     try {
-      await axios.put(`${API_URL}/${id}`, data);
+      await api.put(`/products/${id}`, data);
       toast.success("Producto actualizado");
       await getProducts();
     } catch (err) {
@@ -95,7 +91,7 @@ export const ProductProvider = ({ children }) => {
   // =========================
   const deleteProduct = async (id) => {
     try {
-      await axios.delete(`${API_URL}/${id}`);
+      await api.delete(`/products/${id}`);
       toast.success("Producto eliminado");
       await getProducts();
     } catch (err) {
