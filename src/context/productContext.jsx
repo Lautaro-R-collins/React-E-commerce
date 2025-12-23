@@ -18,6 +18,7 @@ export const ProductProvider = ({ children }) => {
   const [product, setProduct] = useState({});
   const [productLoading, setProductLoading] = useState(true);
 
+  // eslint-disable-next-line no-unused-vars
   const [error, setError] = useState(null);
 
   // =========================
