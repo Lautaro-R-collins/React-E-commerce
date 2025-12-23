@@ -1,6 +1,7 @@
 import { useContext, createContext, useState, useEffect } from "react";
 import { getProfileService } from "../services/authService.js";
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const UserContext = createContext({});
 
 export const UserProvider = ({ children }) => {
@@ -13,7 +14,7 @@ export const UserProvider = ({ children }) => {
 
       const userData = await getProfileService();
       setUserInfo(userData); 
-    } catch (error) {
+    } catch {
       setUserInfo({});
     } finally {
       setLoading(false);
@@ -44,4 +45,5 @@ export const UserProvider = ({ children }) => {
   );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useUser = () => useContext(UserContext);

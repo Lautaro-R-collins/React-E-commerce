@@ -18,6 +18,7 @@ export const ProductProvider = ({ children }) => {
   const [product, setProduct] = useState({});
   const [productLoading, setProductLoading] = useState(true);
 
+  // eslint-disable-next-line no-unused-vars
   const [error, setError] = useState(null);
 
   // =========================
@@ -133,4 +134,5 @@ export const ProductProvider = ({ children }) => {
   );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useProduct = () => useContext(ProductContext);
