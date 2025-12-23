@@ -13,7 +13,7 @@ export const UserProvider = ({ children }) => {
 
       const userData = await getProfileService();
       setUserInfo(userData); 
-    } catch (error) {
+    } catch {
       setUserInfo({});
     } finally {
       setLoading(false);
