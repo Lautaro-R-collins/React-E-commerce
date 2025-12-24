@@ -1,6 +1,5 @@
-// src/components/home/Features.jsx
-import CardFeature from "./CardFeature.jsx";
 import { homeFeatures } from "../../mocks/homeFeatures.mock";
+import CardFeature from "./CardFeature.jsx";
 
 const Features = () => {
   return (
