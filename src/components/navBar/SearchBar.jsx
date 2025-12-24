@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../../config/api.js";
-import axios from "axios"; // Needed for CancelToken
+import axios from "axios"; 
 
 import { FaSearch } from "react-icons/fa";
 
