@@ -10,7 +10,7 @@ const CartDrawer = ({ isOpen, onClose }) => {
 
   const { cart = [], removeItem, clearCart } = cartContext;
 
-  // ---- CALCULAR DESCUENTO ----
+  // ---- CALCULAR DESCUENTO ---- //
   const calculateDiscountedPrice = (product) => {
     if (!product.discountActive || product.discount <= 0) {
       return product.price;
@@ -18,7 +18,7 @@ const CartDrawer = ({ isOpen, onClose }) => {
     return Math.round(product.price - (product.price * product.discount) / 100);
   };
 
-  // ---- TOTAL CON DESCUENTO ----
+  // ---- TOTAL CON DESCUENTO ---- //
   const totalPrice = cart.reduce((acc, item) => {
     const finalPrice = calculateDiscountedPrice(item.product);
     return acc + finalPrice * (item.quantity || 1);

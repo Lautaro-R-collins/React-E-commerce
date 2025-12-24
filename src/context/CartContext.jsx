@@ -28,9 +28,7 @@ export const CartProvider = ({ children }) => {
   // =========================
   const addItem = (product, quantity = 1) => {
     setCart((prev) => {
-      const existing = prev.find(
-        (item) => item.product._id === product._id
-      );
+      const existing = prev.find((item) => item.product._id === product._id);
 
       const currentQty = existing ? existing.quantity : 0;
       const newQty = currentQty + quantity;
@@ -42,7 +40,6 @@ export const CartProvider = ({ children }) => {
       }
 
       if (existing) {
-
         return prev.map((item) =>
           item.product._id === product._id
             ? { ...item, quantity: newQty }
@@ -77,10 +74,7 @@ export const CartProvider = ({ children }) => {
   // =========================
   // TOTALES
   // =========================
-  const totalQuantity = cart.reduce(
-    (acc, item) => acc + item.quantity,
-    0
-  );
+  const totalQuantity = cart.reduce((acc, item) => acc + item.quantity, 0);
 
   const totalPrice = cart.reduce(
     (acc, item) =>

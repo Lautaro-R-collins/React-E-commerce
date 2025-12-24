@@ -1,5 +1,3 @@
-// src/mocks/homeCarousel.mock.js
-
 import imgHome1 from "../assets/sliderHome/imgHome1.webp";
 import imgHome2 from "../assets/sliderHome/imgHome2.webp";
 import imgHome3 from "../assets/sliderHome/imgHome3.webp";

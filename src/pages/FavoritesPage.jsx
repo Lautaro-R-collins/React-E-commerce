@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 import { FaRegHeart } from "react-icons/fa";
+import { CATEGORY_BACKGROUNDS } from "../config/categoryBackgrounds";
 import useFavorites from "../context/useFavorites";
 import CardProduct from "../components/products/CardProduct";
 import CategoryHeader from "../components/category/CategoryHeader";
-import { CATEGORY_BACKGROUNDS } from "../config/categoryBackgrounds";
 import CarruselText from "../components/ui/CarruselText.jsx";
 
 export default function FavoritesPage() {

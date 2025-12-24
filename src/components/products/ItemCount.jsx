@@ -1,4 +1,3 @@
-// src/components/products/ItemCount.jsx
 import { FaPlus, FaMinus } from "react-icons/fa";
 
 const ItemCount = ({ stock, count, setCount }) => {

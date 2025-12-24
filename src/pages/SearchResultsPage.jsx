@@ -38,9 +38,7 @@ export default function SearchResults() {
 
   return (
     <div className="w-full max-w-6xl mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-6">
-        Resultados de {queryParam}
-      </h1>
+      <h1 className="text-2xl font-bold mb-6">Resultados de {queryParam}</h1>
 
       {!loading && results.length === 0 && queryParam.trim().length >= 2 && (
         <SearchEmptyState />

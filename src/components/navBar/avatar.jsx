@@ -3,7 +3,7 @@ import { useUser } from "../../context/userContext.jsx";
 import { logoutService } from "../../services/authService.js";
 import { LuLayoutDashboard, LuUser, LuLogOut } from "react-icons/lu";
 
-// 🔒 helper seguro
+// helper seguro
 const getAvatarUrl = (avatar) => {
   if (!avatar) return null;
 
@@ -14,7 +14,7 @@ const getAvatarUrl = (avatar) => {
   return `${cleanBackendUrl}${avatar}?t=${Date.now()}`;
 };
 
-// 🎨 color estable por usuario
+// usuario avatar
 const stringToColor = (str = "") => {
   let hash = 0;
   for (let i = 0; i < str.length; i++) {

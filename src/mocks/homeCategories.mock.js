@@ -1,4 +1,3 @@
-// src/mocks/homeCategories.mock.js
 export const homeCategories = [
   {
     id: 1,
