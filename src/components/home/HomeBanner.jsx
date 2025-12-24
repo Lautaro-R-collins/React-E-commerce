@@ -1,5 +1,4 @@
-import { Link } from "react-router-dom";
-
+// Banner component for the home page
 export const HomeBanner = () => {
   return (
     <section className="w-full my-16">
