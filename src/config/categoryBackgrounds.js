@@ -1,4 +1,3 @@
-
 export const CATEGORY_BACKGROUNDS = {
   ropa: "/categories/ropa.webp",
   tecnologia: "/categories/Tecnologias.webp",
