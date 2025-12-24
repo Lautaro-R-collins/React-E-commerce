@@ -1,4 +1,3 @@
-// src/mocks/homeFeatures.mock.js
 import { FaTruck, FaRegCreditCard, FaShieldAlt } from "react-icons/fa";
 
 export const homeFeatures = [
