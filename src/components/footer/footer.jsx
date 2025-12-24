@@ -1,16 +1,15 @@
 import { Link } from "react-router-dom";
 
-export const Footer = () => {
+const Footer = () => {
   return (
     <footer className="bg-[#03265D] text-white mt-16">
       <div className="max-w-7xl mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-3 gap-8">
-
         {/* BRAND */}
         <div>
           <h3 className="text-xl font-bold mb-2">Tienda</h3>
           <p className="text-white/70 text-sm">
-            Productos seleccionados para mejorar tu setup.
-            Calidad, buen precio y envíos a todo el país.
+            Productos seleccionados para mejorar tu setup. Calidad, buen precio
+            y envíos a todo el país.
           </p>
         </div>
 
@@ -54,3 +53,5 @@ export const Footer = () => {
     </footer>
   );
 };
+
+export default Footer;
