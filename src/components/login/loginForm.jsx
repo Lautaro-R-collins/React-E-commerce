@@ -7,7 +7,7 @@ import { loginService } from "../../services/authService.js";
 import { useUser } from "../../context/userContext.jsx";
 import { toast } from "react-toastify";
 
-export const LoginForm = () => {
+const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [redirect, setRedirect] = useState(false);
 
@@ -134,3 +134,5 @@ export const LoginForm = () => {
     </div>
   );
 };
+
+export default LoginForm;
